@@ -36,21 +36,21 @@ export const programs = [
     badge: 'Terverifikasi',
     desc: 'Jadwal latihan terpisah wanita — nyaman, aman, syari. Jam sesi cek DM/postingan.',
     img: '/images/jambi-bugar-2.jpg',
-    alt: 'Kelas kebugaran sesi wanita di Jambi Bugar Gym',
+    alt: 'Area latihan beban sesi muslimah di Jambi Bugar Gym',
   },
   {
     name: 'Pendampingan Coach',
     badge: 'Estimasi',
     desc: 'Dibantu teknik dasar yang benar. Ketersediaan coach konfirmasi via DM IG.',
     img: '/images/jambi-bugar-3.jpg',
-    alt: 'Coach mendampingi member latihan di Jambi Bugar Gym',
+    alt: 'Kettlebell untuk sesi pendampingan coach Jambi Bugar Gym',
   },
   {
     name: 'Asesmen Awal & Target',
     badge: 'Estimasi',
     desc: 'Ukur kondisi awal sebelum program transformasi. Detail via DM IG.',
     img: '/images/jambi-bugar-4.jpg',
-    alt: 'Asesmen kebugaran awal member Jambi Bugar Gym',
+    alt: 'Timbangan badan untuk asesmen awal member Jambi Bugar Gym',
   },
 ];
 
