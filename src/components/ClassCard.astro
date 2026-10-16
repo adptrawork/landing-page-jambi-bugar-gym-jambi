@@ -1,0 +1,19 @@
+---
+const { name, day, time, level, desc, img, alt, badge, cta, accent = 'emerald-800' } = Astro.props;
+---
+<!-- Ref: MuffinGroup — kartu program Upper Body Blast dsb + CTA trial tiap segmen -->
+<article class="flex flex-col overflow-hidden rounded-3xl border border-stone-200 bg-white">
+  {img && <img src={img} alt={alt ?? name} width="800" height="600" loading="lazy" decoding="async" class="w-full aspect-[16/10] object-cover" />}
+  <div class="flex flex-1 flex-col p-6">
+    <div class="flex items-center justify-between gap-2">
+      <p class={`font-mono-num text-[11px] font-bold uppercase tracking-[0.18em] text-${accent}`}>{badge ?? level}</p>
+      {level && badge && <p class="text-[11px] font-semibold uppercase tracking-wider text-stone-500">{level}</p>}
+    </div>
+    <h3 class="mt-2 text-lg font-extrabold tracking-tight">{name}</h3>
+    {(day || time) && (
+      <p class="mt-1 font-mono-num text-sm text-stone-600">{day}{day && time ? ' • ' : ''}{time}</p>
+    )}
+    {desc && <p class="mt-2 text-sm leading-relaxed text-stone-600">{desc}</p>}
+    {cta && <a href={cta.href} class={`mt-4 inline-flex min-h-[48px] items-center justify-center rounded-full border border-${accent} px-5 text-sm font-bold uppercase tracking-wide text-${accent} transition hover:bg-${accent} hover:text-white`}>{cta.label ?? 'Coba Trial'}</a>}
+  </div>
+</article>

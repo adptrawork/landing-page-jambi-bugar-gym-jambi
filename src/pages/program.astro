@@ -1,27 +1,40 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { business, programs, ctaLink } from '../data/business';
+const heroCta = ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi.`);
 ---
-<BaseLayout title="Program Jambi Bugar Gym — Sesi Pria & Muslimah + Coaching" description="Program Jambi Bugar Gym: sesi latihan terpisah pria dan muslimah, pendampingan coach, asesmen awal. Jadwal tiap sesi via DM IG @jambibugar.gym." canonicalPath="/program">
-  <section class="max-w-7xl mx-auto px-4 py-12">
-    <p class="text-xs font-semibold tracking-widest uppercase text-emerald-800">Program</p>
-    <h1 class="mt-2 text-4xl md:text-6xl tracking-tighter leading-none font-bold">Program latihan terpisah pria &amp; muslimah</h1>
-    <p class="mt-3 text-base text-stone-600 max-w-[65ch]">Label <strong>Terverifikasi</strong> = sesuai bio IG resmi. Jam tiap sesi berubah — cek postingan atau DM IG.</p>
-    <div class="mt-10 grid grid-cols-1 md:grid-cols-12 gap-6">
-      {programs.map((p, i) => (
-        <article class={i === 0 ? 'md:col-span-7' : i === 1 ? 'md:col-span-5' : i === 2 ? 'md:col-span-5' : 'md:col-span-7'}>
-          <div class="lift bg-white border border-stone-200/70 rounded-[2.5rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] h-full">
-            <img src={p.img} alt={p.alt} width="800" height="600" loading="lazy" class="w-full aspect-[16/9] object-cover" />
-            <div class="p-7">
-              <p class="text-xs font-semibold tracking-widest uppercase text-emerald-800">{p.badge}</p>
-              <h2 class="mt-1 font-semibold text-lg tracking-tight">{p.name}</h2>
-              <p class="mt-1 text-base text-stone-600">{p.desc}</p>
-              <a href={ctaLink(`Halo ${business.name}, saya mau tanya program ${p.name}.`)} class="mt-4 inline-block bg-stone-900 text-white px-5 py-2.5 rounded-full text-sm active:scale-[0.98]">Tanya via DM IG</a>
-            </div>
+<!-- Ref: Unbounce fitness — head (hook) + content + CTA -->
+<BaseLayout title="Semua program & jadwal — Jambi Bugar Gym Jambi" description="Rumah Transformasi — Nyaman | Aman | Syari" canonicalPath="/Program" image={business.ogImage}>
+  <section class="bg-stone-900 text-white" aria-labelledby="subhead">
+    <div class="max-w-7xl mx-auto px-4 pt-14 pb-12 md:pt-20 md:pb-16">
+      <nav class="font-mono-num text-xs uppercase tracking-[0.18em] text-white/60" aria-label="Breadcrumb"><a href="/" class="hover:text-white">Beranda</a> / Program & kelas</nav>
+      <h1 id="subhead" class="mt-3 max-w-[20ch] text-3xl md:text-5xl font-black uppercase tracking-tighter">Semua program & jadwal</h1>
+      <p class="mt-3 max-w-[60ch] text-base text-white/75">Jadwal lengkap semua program latihan — pilih yang cocok dengan level & waktumu.</p>
+      <a href={heroCta} class="mt-6 inline-flex min-h-[48px] items-center rounded-full bg-emerald-800 px-7 text-sm font-black uppercase tracking-wide text-white transition hover:opacity-90">Tanya via DM IG</a>
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-4 py-12 md:py-20" aria-label="Daftar program">
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {programs.map((p) => (
+        <article class="flex flex-col overflow-hidden rounded-3xl border border-stone-200 bg-white">
+          <img src={p.img} alt={p.alt} width="800" height="600" loading="lazy" decoding="async" class="aspect-[16/10] w-full object-cover" />
+          <div class="flex flex-1 flex-col p-6">
+            <p class="font-mono-num text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-800">{p.badge}</p>
+            <h2 class="mt-2 text-lg font-extrabold tracking-tight">{p.name}</h2>
+            <p class="mt-2 text-sm leading-relaxed text-stone-600">{p.desc}</p>
+            <a href={heroCta} class="mt-4 inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-800 px-5 text-sm font-bold uppercase tracking-wide text-emerald-800 transition hover:bg-emerald-800 hover:text-white">Coba Trial</a>
           </div>
         </article>
       ))}
     </div>
-    <p class="mt-6 text-xs text-stone-400">Sumber foto: Unsplash (foto konteks gym/kelas/coaching, bebas lisensi) — ganti foto asli gym.</p>
+    <p class="mt-3 text-xs text-stone-400">Foto konteks — ganti foto asli lokasi.</p>
+  </section>
+  <section class="max-w-7xl mx-auto px-4 pb-12 md:pb-20" aria-label="Ajakan">
+    <div class="rounded-3xl bg-stone-900 p-8 text-white md:p-10">
+      <p class="text-2xl font-black uppercase tracking-tight">Masih bingung pilih program?</p>
+      <p class="mt-2 text-sm text-white/70">Tanya gratis — admin bantu pilihkan sesuai level & tujuanmu.</p>
+      <a href={heroCta} class="mt-5 inline-flex min-h-[48px] items-center rounded-full bg-white px-8 text-sm font-black uppercase tracking-wide text-stone-900">Tanya via DM IG</a>
+    </div>
   </section>
 </BaseLayout>

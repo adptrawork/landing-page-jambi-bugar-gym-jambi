@@ -1,0 +1,80 @@
+---
+const { action = '#', gymName = 'Gym', accent = 'emerald-800', kind = 'wa', contact = '' } = Astro.props as { action?: string; gymName?: string; accent?: string; kind?: 'wa' | 'dm' | 'maps'; contact?: string };
+const hint = kind === 'dm' ? 'Form ini membuka DM Instagram — tanpa login tambahan.' : kind === 'maps' ? 'Form ini menyiapkan info kunjungan + rute Google Maps.' : 'Form ini membuka WhatsApp — tanpa login tambahan.';
+---
+<!-- Ref: Unbounce fitness — risk-reversal + CTA; validasi + error/empty states -->
+<form class="trial-form rounded-3xl border border-stone-200 bg-white p-6 md:p-8" data-kind={kind} data-action={action} data-contact={contact} data-gym={gymName} novalidate>
+  <p class="font-mono-num text-[11px] font-bold uppercase tracking-[0.18em]">Trial / Konsultasi — gratis tanya dulu</p>
+  <p class="mt-1 text-sm text-stone-500">{hint}</p>
+  <div class="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div>
+      <label for="tf-nama" class="text-sm font-semibold">Nama</label>
+      <input id="tf-nama" name="nama" type="text" autocomplete="name" placeholder="cth. Putri" class="mt-1 w-full min-h-[48px] rounded-xl border border-stone-300 px-4 text-base" aria-describedby="tf-nama-err" />
+      <p id="tf-nama-err" class="err mt-1 hidden text-sm text-red-700" role="alert"></p>
+    </div>
+    <div>
+      <label for="tf-kontak" class="text-sm font-semibold">No. WA / IG aktif</label>
+      <input id="tf-kontak" name="kontak" type="text" autocomplete="tel" placeholder="cth. 0812xxxx / @akun" class="mt-1 w-full min-h-[48px] rounded-xl border border-stone-300 px-4 text-base" aria-describedby="tf-kontak-err" />
+      <p id="tf-kontak-err" class="err mt-1 hidden text-sm text-red-700" role="alert"></p>
+    </div>
+  </div>
+  <div class="mt-4">
+    <label for="tf-tujuan" class="text-sm font-semibold">Tujuan latihan</label>
+    <select id="tf-tujuan" name="tujuan" class="mt-1 w-full min-h-[48px] rounded-xl border border-stone-300 bg-white px-4 text-base">
+      <option value="">— Pilih dulu —</option>
+      <option>Fatloss / turun berat</option>
+      <option>Naik massa otot</option>
+      <option>Kelas grup / stamina</option>
+      <option>Konsultasi dulu</option>
+    </select>
+    <p id="tf-tujuan-err" class="err mt-1 hidden text-sm text-red-700" role="alert"></p>
+  </div>
+  <div class="mt-4">
+    <label for="tf-pesan" class="text-sm font-semibold">Pesan <span class="font-normal text-stone-400">(opsional)</span></label>
+    <textarea id="tf-pesan" name="pesan" rows="3" placeholder="cth. Pemula, mau coba sesi sore…" class="mt-1 w-full rounded-xl border border-stone-300 px-4 py-3 text-base"></textarea>
+  </div>
+  <p class="form-empty mt-4 hidden rounded-xl bg-stone-100 px-4 py-3 text-sm text-stone-600" role="status">Lengkapi nama, kontak, dan tujuan dulu ya — biar admin cepat bantu slot trial.</p>
+  <button type="submit" class={`mt-5 inline-flex min-h-[48px] w-full items-center justify-center rounded-full bg-${accent} px-6 font-bold uppercase tracking-wide text-white transition active:scale-[0.98] sm:w-auto`}>Kirim &amp; Lanjut Trial</button>
+  <p class="mt-2 text-xs text-stone-500">Tanpa komitmen. Balasan mengikuti jam operasional {gymName}.</p>
+</form>
+<script is:inline>
+(function () {
+  function init() {
+  document.querySelectorAll('.trial-form').forEach(function (form) {
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var nama = form.querySelector('#tf-nama');
+      var kontak = form.querySelector('#tf-kontak');
+      var tujuan = form.querySelector('#tf-tujuan');
+      var pesan = form.querySelector('#tf-pesan');
+      var empty = form.querySelector('.form-empty');
+      var ok = true;
+      function setErr(input, id, msg) {
+        var el = form.querySelector('#' + id);
+        if (!el) return;
+        if (msg) { el.textContent = msg; el.classList.remove('hidden'); input.setAttribute('aria-invalid', 'true'); ok = false; }
+        else { el.textContent = ''; el.classList.add('hidden'); input.removeAttribute('aria-invalid'); }
+      }
+      var vNama = nama.value.trim();
+      var vKontak = kontak.value.trim();
+      setErr(nama, 'tf-nama-err', vNama.length < 2 ? 'Isi nama minimal 2 huruf.' : '');
+      setErr(kontak, 'tf-kontak-err', vKontak.length < 3 ? 'Isi no. WA / username IG aktif.' : '');
+      setErr(tujuan, 'tf-tujuan-err', !tujuan.value ? 'Pilih tujuan latihan dulu.' : '');
+      empty.classList.toggle('hidden', ok);
+      if (!ok) { (form.querySelector('[aria-invalid="true"]') || nama).focus(); return; }
+      var kind = form.dataset.kind, action = form.dataset.action, gym = form.dataset.gym;
+      var text = 'Halo ' + gym + ', saya ' + vNama + ' (' + vKontak + '). Tujuan: ' + tujuan.value + (pesan.value.trim() ? '. Catatan: ' + pesan.value.trim() : '') + ' Mau tanya slot trial.';
+      var url = kind === 'maps' ? action : action + '?text=' + encodeURIComponent(text);
+      if (kind === 'maps') {
+        try { sessionStorage.setItem('trial-info', text); } catch (e) {}
+        empty.textContent = 'Siap, ' + vNama + '! Info tujuan tersimpan — lanjut buka rute Google Maps ya.';
+        empty.classList.remove('hidden');
+      }
+      window.open(url, '_blank', 'noopener');
+    });
+  });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>

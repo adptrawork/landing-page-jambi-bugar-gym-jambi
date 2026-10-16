@@ -1,50 +1,34 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { business } from '../data/business';
+import MapFacade from '../components/MapFacade.astro';
+import { business, ctaLink } from '../data/business';
+const heroCta = ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi.`);
 ---
-<BaseLayout title="Kontak Jambi Bugar Gym — Daftar via DM IG" description="Hubungi Jambi Bugar Gym via DM IG @jambibugar.gym untuk jadwal sesi pria dan muslimah. Nomor WA resmi belum terverifikasi." canonicalPath="/kontak">
-  <section class="max-w-7xl mx-auto px-4 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
-      <div class="md:col-span-7">
-        <p class="text-xs font-semibold tracking-widest uppercase text-emerald-800">Kontak</p>
-        <h1 class="mt-2 text-4xl md:text-6xl tracking-tighter leading-none font-bold">Daftar via DM Instagram</h1>
-        <p class="mt-3 text-base text-stone-600 max-w-[65ch]">Nomor WA resmi <strong>belum terverifikasi</strong> — jangan percaya nomor dari sumber lain. Isi format chat, salin, lalu tempel di DM @jambibugar.gym.</p>
-        <div class="mt-8 bg-white border border-stone-200/70 rounded-[2.5rem] p-8 space-y-4">
-          <div><label for="nama" class="text-sm font-medium">Nama</label><input id="nama" placeholder="Nama kamu" class="mt-1 w-full border border-stone-300 rounded-2xl px-4 py-3 min-h-[48px] bg-stone-50" /></div>
-          <div><label for="sesi" class="text-sm font-medium">Sesi</label><select id="sesi" class="mt-1 w-full border border-stone-300 rounded-2xl px-4 py-3 min-h-[48px] bg-stone-50"><option>Sesi Pria</option><option>Sesi Muslimah</option></select></div>
-          <div class="flex flex-wrap gap-3">
-            <button id="copy" class="bg-emerald-800 text-white px-7 py-3.5 rounded-full font-medium active:scale-[0.98]">Salin Format Chat</button>
-            <a href={business.instagram} class="border border-stone-300 px-7 py-3.5 rounded-full font-medium hover:border-emerald-800 hover:text-emerald-800">Buka IG @jambibugar.gym</a>
-          </div>
-          <p id="ok" class="hidden text-sm text-emerald-800">Tersalin — tempel di DM Instagram @jambibugar.gym.</p>
-        </div>
-      </div>
-      <div class="md:col-span-5">
-        <div class="bg-white border border-stone-200/70 rounded-[2.5rem] overflow-hidden">
-          <img src="/images/jambi-bugar-5.jpg" alt="Kelas kebugaran sesi muslimah di Jambi Bugar Gym" width="800" height="600" loading="lazy" class="w-full aspect-[16/9] object-cover" />
-          <div class="p-8">
-            <p class="font-semibold">Info kunjungan</p>
-            <p class="mt-2 text-sm text-stone-600">{business.address}</p>
-            <p class="mt-1 text-sm text-stone-600">{business.hours}</p>
-            <p class="mt-1 text-sm text-stone-600">IG: @jambibugar.gym (848 pengikut)</p>
-            <a class="mt-4 inline-block underline underline-offset-4" href={business.mapsUrl}>Rute ke lokasi</a>
-          </div>
-        </div>
-        <p class="mt-3 text-xs text-stone-400">Sumber foto: Unsplash (bebas lisensi) — ganti foto asli gym.</p>
-      </div>
-    </div>
-    <div class="mt-8 rounded-[2.5rem] overflow-hidden border border-stone-200/70 aspect-video bg-stone-100">
-      <iframe title="Peta Jambi Bugar Gym" src={business.mapsEmbed} loading="lazy" class="w-full h-full"></iframe>
+<!-- Ref: Unbounce fitness — head (hook) + content + CTA -->
+<BaseLayout title="Hubungi & kunjungi — Jambi Bugar Gym Jambi" description="Rumah Transformasi — Nyaman | Aman | Syari" canonicalPath="/Kontak" image={business.ogImage}>
+  <section class="bg-stone-900 text-white" aria-labelledby="subhead">
+    <div class="max-w-7xl mx-auto px-4 pt-14 pb-12 md:pt-20 md:pb-16">
+      <nav class="font-mono-num text-xs uppercase tracking-[0.18em] text-white/60" aria-label="Breadcrumb"><a href="/" class="hover:text-white">Beranda</a> / Kontak & lokasi</nav>
+      <h1 id="subhead" class="mt-3 max-w-[20ch] text-3xl md:text-5xl font-black uppercase tracking-tighter">Hubungi & kunjungi</h1>
+      <p class="mt-3 max-w-[60ch] text-base text-white/75">Kontak resmi, jam operasional, dan rute ke lokasi.</p>
+      <a href={heroCta} class="mt-6 inline-flex min-h-[48px] items-center rounded-full bg-emerald-800 px-7 text-sm font-black uppercase tracking-wide text-white transition hover:opacity-90">Tanya via DM IG</a>
     </div>
   </section>
-<script is:inline>
-document.getElementById('copy').addEventListener('click', function() {
-  var nama = (document.getElementById('nama').value || '').trim() || '[nama]';
-  var sesi = document.getElementById('sesi').value;
-  var msg = 'Halo Jambi Bugar Gym, saya ' + nama + '. Mau tanya jadwal ' + sesi + '. Apakah ada slot?';
-  navigator.clipboard.writeText(msg).then(function() {
-    document.getElementById('ok').classList.remove('hidden');
-  });
-});
-</script>
+
+  <section class="max-w-7xl mx-auto px-4 py-12 md:py-20" aria-label="Info kontak">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+      <div class="md:col-span-5 rounded-3xl border border-stone-200 bg-white p-6 md:p-8">
+        <h2 class="text-xl font-extrabold tracking-tight">Kontak resmi</h2>
+        <p class="mt-2 text-sm text-stone-600">{business.address}<br />{business.hours}</p>
+        <div class="mt-5 flex flex-col gap-3">
+          <a href={heroCta} class="inline-flex min-h-[48px] items-center justify-center rounded-full bg-emerald-800 px-6 text-sm font-bold uppercase tracking-wide text-white">Tanya via DM IG</a>
+          <a href={business.instagram} class="inline-flex min-h-[48px] items-center justify-center rounded-full border border-stone-300 px-6 text-sm font-bold uppercase tracking-wide">Instagram @jambibugar.gym</a>
+        </div>
+      </div>
+      <div class="md:col-span-7">
+        <MapFacade src={business.mapsEmbed} title="Peta lokasi" mapsUrl={business.mapsUrl} />
+        <p class="mt-3 text-sm text-stone-600">Buka rute via <a class="underline underline-offset-4 font-semibold" href={business.mapsUrl}>Google Maps</a>.</p>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

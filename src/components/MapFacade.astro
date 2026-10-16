@@ -1,0 +1,32 @@
+---
+interface Props { src: string; title: string; mapsUrl: string; label?: string }
+const { src, title, mapsUrl, label = 'Muat peta & buka rute' } = Astro.props;
+---
+<!-- Maps facade: preview tombol -> suntik iframe saat klik (hemat ~7MB JS Google Maps saat load) -->
+<div class="map-facade relative aspect-video overflow-hidden rounded-3xl border border-stone-200 bg-stone-200" data-src={src} data-title={title}>
+  <div class="absolute inset-0 grid place-items-center bg-gradient-to-br from-stone-200 to-stone-300" aria-hidden="true">
+    <span class="font-mono-num text-4xl font-bold text-stone-400">MAP</span>
+  </div>
+  <a href={mapsUrl} class="absolute inset-0 grid place-items-center" data-map-link>
+    <span class="inline-flex min-h-[48px] items-center rounded-full bg-stone-900 px-7 text-sm font-bold uppercase tracking-wide text-white shadow-lg">{label}</span>
+  </a>
+</div>
+<script is:inline>
+(function () {
+  function init(scope) {
+    (scope || document).querySelectorAll('.map-facade').forEach(function (el) {
+      if (el.dataset.done) return; el.dataset.done = '1';
+      el.querySelector('[data-map-link]').addEventListener('click', function (ev) {
+        ev.preventDefault();
+        var f = document.createElement('iframe');
+        f.title = el.dataset.title || 'Peta lokasi';
+        f.src = el.dataset.src; f.loading = 'lazy';
+        f.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0';
+        el.appendChild(f); el.querySelector('[data-map-link]').remove();
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { init(document); });
+  else init(document);
+})();
+</script>

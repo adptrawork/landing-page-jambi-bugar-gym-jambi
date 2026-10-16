@@ -1,0 +1,22 @@
+---
+interface Price { name: string; price: string; badge: string; desc: string; href?: string; featured?: boolean; }
+const { items = [], accent = 'emerald-800', note = '' } = Astro.props as { items: Price[]; accent?: string; note?: string };
+---
+<!-- Ref: Unbounce fitness — offer + risk-reversal; highlight 1 paket Terpopuler -->
+<div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+  {items.map((p) => (
+    <article class={`relative flex flex-col rounded-3xl border p-6 ${p.featured ? `border-${accent} bg-stone-900 text-white shadow-xl md:-translate-y-2` : 'border-stone-200 bg-white'}`}>
+      {p.featured && <p class={`absolute -top-3 left-6 rounded-full bg-${accent} px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em] text-white`}>Terpopuler</p>}
+      <p class={`font-mono-num text-[11px] font-bold uppercase tracking-[0.18em] ${p.featured ? 'text-white/70' : `text-${accent}`}`}>{p.badge}</p>
+      <h3 class="mt-2 font-extrabold tracking-tight">{p.name}</h3>
+      <p class="mt-1 font-mono-num text-2xl font-bold">{p.price}</p>
+      <p class={`mt-2 text-sm leading-relaxed ${p.featured ? 'text-white/70' : 'text-stone-600'}`}>{p.desc}</p>
+      {p.href && <a href={p.href} class={`mt-4 inline-flex min-h-[48px] items-center justify-center rounded-full px-5 text-sm font-bold uppercase tracking-wide ${p.featured ? `bg-${accent} text-white hover:opacity-90` : `border border-${accent} text-${accent} hover:bg-${accent} hover:text-white`} transition`}>Pilih Paket</a>}
+    </article>
+  ))}
+</div>
+{note && <p class="mt-4 text-xs text-stone-500">{note}</p>}
+<!-- Skeleton shimmer: tampil saat harga dimuat ulang (progressive enhancement) -->
+<div class="price-skeleton mt-5 hidden gap-5 md:grid-cols-3" aria-hidden="true">
+  {[0,1,2].map(() => <div class="skeleton h-40 rounded-3xl bg-stone-200" />)}
+</div>

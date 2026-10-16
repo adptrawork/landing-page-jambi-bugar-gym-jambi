@@ -1,0 +1,15 @@
+---
+const { items = [] } = Astro.props as { items: { q: string; a: string }[] };
+---
+<!-- Ref: Unbounce fitness — risk-reversal / objection handling -->
+<div class="divide-y divide-stone-200 rounded-3xl border border-stone-200 bg-white">
+  {items.map((f) => (
+    <details class="group px-6 py-4 [&_summary::-webkit-details-marker]:hidden">
+      <summary class="flex min-h-[48px] cursor-pointer list-none items-center justify-between gap-4 font-semibold">
+        <span>{f.q}</span>
+        <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-stone-300 transition group-open:rotate-45" aria-hidden="true">+</span>
+      </summary>
+      <p class="pb-2 text-sm leading-relaxed text-stone-600">{f.a}</p>
+    </details>
+  ))}
+</div>

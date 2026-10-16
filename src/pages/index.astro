@@ -1,151 +1,207 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { business, programs, prices, ctaLink } from '../data/business';
-const heroCta = ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi.`);
-const slotCta = (s: string) => ctaLink(`Halo ${business.name}, apakah slot ${s} masih tersedia?`);
-const priaSlots = ['Slot Pagi', 'Slot Siang', 'Slot Sore', 'Slot Malam'];
-const muslimahSlots = ['Slot Pagi', 'Slot Siang', 'Slot Sore', 'Slot Khusus'];
+import StatsStrip from '../components/StatsStrip.astro';
+import ClassCard from '../components/ClassCard.astro';
+import CoachCard from '../components/CoachCard.astro';
+import PriceCompare from '../components/PriceCompare.astro';
+import TrialForm from '../components/TrialForm.astro';
+import Faq from '../components/Faq.astro';
+import MapFacade from '../components/MapFacade.astro';
+import { business, prices, ctaLink } from '../data/business';
+const heroCta = ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi & slot trial.`);
+const faqs = [
+    { q: 'Bagaimana sistem sesi pria/wanita?', a: 'Jadwal latihan terpisah sesuai bio IG resmi "Nyaman | Aman | Syari". Jam sesi per hari cek DM/postingan @jambibugar.gym.' },
+    { q: 'Apakah cocok untuk pemula total?', a: 'Cocok — ada pendampingan coach & asesmen awal. Sampaikan kondisimu saat DM pertama.' },
+    { q: 'Bagaimana cara daftar & bayar?', a: 'Semua via DM IG @jambibugar.gym dulu (jadwal → slot → pembayaran). Belum ada nomor WA resmi.' },
+    { q: 'Di mana lokasinya?', a: 'Kota Jambi — alamat & jam sesi konfirmasi via DM IG, rute via Google Maps.' },
+    { q: 'Harga di web ini pasti?', a: 'Harga paket bersifat estimasi. Konfirmasi tarif akhir via DM IG sebelum bayar.' }
+];
+const statsItems = '848~pengikut IG resmi|2~sesi terpisah pria & wanita|4+~program transformasi|226~postingan edukasi IG'.split('|').map((s) => ({ value: s.split('~')[0], label: s.split('~')[1] }));
 ---
-<BaseLayout title="Jambi Bugar Gym Jambi — Home Gym Islami, Sesi Pria & Muslimah Terpisah" description="Rumah transformasi islami di Jambi: latihan kekuatan sesi pria dan muslimah terpisah, pendampingan coach, suasana tenang. Jadwal & daftar via DM IG @jambibugar.gym." canonicalPath="/" image={business.ogImage}>
-  <!-- HERO SPLIT -->
-  <section class="max-w-7xl mx-auto px-4 w-full">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center py-10 md:py-16">
-      <div class="md:col-span-6">
-        <p class="reveal inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-emerald-800 border border-emerald-800/25 rounded-full px-4 py-1.5 bg-emerald-800/[0.05]">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-800" aria-hidden="true"></span>
-          {business.followers} &bull; Home Gym Islami
-        </p>
-        <h1 class="reveal d1 mt-5 text-4xl md:text-6xl tracking-tighter leading-[0.95] font-bold">Latihan yang tenang, sesi yang terjaga</h1>
-        <p class="reveal d2 mt-5 text-base text-stone-600 leading-relaxed max-w-[65ch]">Jambi Bugar Gym adalah rumah transformasi: jadwal latihan terpisah pria dan muslimah, bimbingan teknik yang benar, dan suasana aman untuk pemula hingga senior. {business.hours}.</p>
-        <div class="reveal d3 mt-8 flex flex-wrap gap-3">
-          <a href={heroCta} class="bg-emerald-800 text-white px-7 py-3.5 rounded-full font-medium transition-all duration-500 hover:bg-emerald-900 active:scale-[0.98]" style="transition-timing-function:cubic-bezier(0.22,0.61,0.21,1)">Minta Jadwal Sesi</a>
-          <a href="/program" class="border border-stone-300 px-7 py-3.5 rounded-full font-medium hover:border-emerald-800 hover:text-emerald-800 active:scale-[0.98]">Lihat Program</a>
-        </div>
-        <dl class="reveal d4 mt-8 flex divide-x divide-stone-200 border-t border-stone-200 pt-5 text-sm">
-          <div><dt class="sr-only">Konsep sesi</dt><dd class="font-mono-num font-semibold text-emerald-800">Pria / Muslimah</dd><dd class="text-stone-500">Sesi terpisah</dd></div>
-          <div><dt class="sr-only">Suasana</dt><dd class="font-mono-num font-semibold text-emerald-800">Tenang</dd><dd class="text-stone-500">Aman &amp; syari</dd></div>
-          <div><dt class="sr-only">Pendaftaran</dt><dd class="font-mono-num font-semibold text-emerald-800">DM IG</dd><dd class="text-stone-500">@jambibugar.gym</dd></div>
-        </dl>
+<!-- Ref: Unbounce fitness — hero → problem → solution → proof → offer → risk-reversal → CTA -->
+<!-- Ref: MuffinGroup — hero kuat + program Upper Body Blast dsb + CTA trial tiap segmen + foto member/alat/instruktur aksi -->
+<!-- Ref: NYSC — 1 warna pop emerald-800 + font treatment beda (mono angka/label) -->
+<BaseLayout title={business.title} description={business.description} canonicalPath="/" image={business.ogImage}>
+  <!-- 01 HERO -->
+  <section class="relative w-full overflow-hidden bg-stone-900 text-white" aria-labelledby="hero">
+    <img src="/images/jambi-bugar-1.jpg" alt="Area beban home gym islami Jambi Bugar Gym sesi pria" width="800" height="533" loading="eager" fetchpriority="high" decoding="async" class="absolute inset-0 h-full w-full object-cover" />
+    <div class="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/70 to-stone-900/25" aria-hidden="true"></div>
+    <div class="relative max-w-7xl mx-auto px-4 pt-20 pb-32 md:pt-28 md:pb-44">
+      <p class="rise d1 inline-flex items-center gap-2 rounded-full border border-white/30 bg-stone-900/60 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-white/90">SESI TERPISAH &bull; Jambi</p>
+      <h1 id="hero" class="rise d2 mt-5 max-w-[16ch] text-4xl md:text-6xl font-black uppercase leading-[0.95] tracking-tighter">Rumah transformasi yang nyaman & syari</h1>
+      <p class="rise d3 mt-5 max-w-[52ch] text-base leading-relaxed text-white/80">Latihan kekuatan sesi pria dan muslimah terpisah, didampingi coach, suasana tenang.</p>
+      <div class="rise d3 mt-8 flex flex-wrap gap-3">
+        <a href={heroCta} class="inline-flex min-h-[48px] items-center rounded-full bg-emerald-800 px-8 font-black uppercase tracking-wide text-sm text-white transition hover:opacity-90 active:scale-[0.98]">Tanya via DM IG</a>
+        <a href="/harga" class="inline-flex min-h-[48px] items-center rounded-full border border-white/50 px-8 font-bold uppercase tracking-wide text-sm hover:bg-white hover:text-stone-900 active:scale-[0.98]">Lihat Harga</a>
       </div>
-      <div class="md:col-span-6">
-        <div class="reveal d2 lift bg-white border border-stone-200/70 rounded-[2.5rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)]">
-          <img src="/images/jambi-bugar-1.jpg" alt="Area beban home gym islami Jambi Bugar Gym sesi pria" width="800" height="600" loading="eager" fetchpriority="high" class="w-full aspect-[4/3] object-cover" />
-          <div class="p-8">
-            <p class="font-semibold text-lg tracking-tight">Fokus latihan tanpa canggung</p>
-            <p class="mt-1 text-base text-stone-600">Tidak campur — setiap sesi punya waktunya sendiri. Cocok untuk yang baru mulai.</p>
-          </div>
-        </div>
-        <p class="mt-3 text-xs text-stone-400">Foto konteks area beban (Unsplash, bebas lisensi) — ganti foto asli gym.</p>
-      </div>
+      <p class="rise d4 mt-6 font-mono-num text-xs uppercase tracking-[0.18em] text-white/60">Program unggulan: Sesi Pria & Muslimah Terpisah</p>
     </div>
   </section>
 
-  <!-- CHROMA-GRID JADWAL -->
-  <section class="max-w-7xl mx-auto px-4 py-10" aria-labelledby="jadwal">
+  <!-- 02 STATS STRIP -->
+  <StatsStrip items={statsItems} note="Pengikut & postingan terverifikasi IG @jambibugar.gym (16 Okt 2026)." accent="emerald-800" />
+
+  <!-- MARQUEE -->
+  <div class="marquee bg-stone-900 text-white border-t border-white/10 py-3" aria-label="Sorotan layanan">
+    <div class="marquee-track font-black uppercase tracking-widest text-sm">
+      <div class="flex shrink-0" aria-hidden="false">
+              {<span class="px-6 py-1 whitespace-nowrap">Sesi Pria Terpisah <span class="ml-6 opacity-50">/</span></span>}
+              {<span class="px-6 py-1 whitespace-nowrap">Sesi Muslimah Terpisah <span class="ml-6 opacity-50">/</span></span>}
+              {<span class="px-6 py-1 whitespace-nowrap">Pendampingan Coach <span class="ml-6 opacity-50">/</span></span>}
+              {<span class="px-6 py-1 whitespace-nowrap">Asesmen Awal <span class="ml-6 opacity-50">/</span></span>}
+              {<span class="px-6 py-1 whitespace-nowrap">Nyaman <span class="ml-6 opacity-50">/</span></span>}
+              {<span class="px-6 py-1 whitespace-nowrap">Aman <span class="ml-6 opacity-50">/</span></span>}
+              {<span class="px-6 py-1 whitespace-nowrap">Syari <span class="ml-6 opacity-50">/</span></span>}
+              {<span class="px-6 py-1 whitespace-nowrap">DM IG <span class="ml-6 opacity-50">/</span></span>}
+      </div>
+      <div class="flex shrink-0" aria-hidden="true">
+              {<span class="px-6 py-1 whitespace-nowrap">Sesi Pria Terpisah <span class="ml-6 opacity-50">/</span></span>}
+              {<span class="px-6 py-1 whitespace-nowrap">Sesi Muslimah Terpisah <span class="ml-6 opacity-50">/</span></span>}
+              {<span class="px-6 py-1 whitespace-nowrap">Pendampingan Coach <span class="ml-6 opacity-50">/</span></span>}
+              {<span class="px-6 py-1 whitespace-nowrap">Asesmen Awal <span class="ml-6 opacity-50">/</span></span>}
+              {<span class="px-6 py-1 whitespace-nowrap">Nyaman <span class="ml-6 opacity-50">/</span></span>}
+              {<span class="px-6 py-1 whitespace-nowrap">Aman <span class="ml-6 opacity-50">/</span></span>}
+              {<span class="px-6 py-1 whitespace-nowrap">Syari <span class="ml-6 opacity-50">/</span></span>}
+              {<span class="px-6 py-1 whitespace-nowrap">DM IG <span class="ml-6 opacity-50">/</span></span>}
+      </div>
+    </div>
+  </div>
+
+  <!-- PROBLEM -->
+  <!-- Ref: Unbounce fitness — problem agitation -->
+  <section class="max-w-7xl mx-auto px-4 py-12 md:py-20" aria-labelledby="masalah">
+    <p class="font-mono-num text-xs font-bold uppercase tracking-[0.2em] text-emerald-800">Masalah member</p>
+    <h2 id="masalah" class="mt-2 max-w-[20ch] text-3xl md:text-4xl font-black uppercase tracking-tighter">Kenapa resolusi gym gagal?</h2>
+    <div class="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
+        <div class="rounded-3xl border border-stone-200 bg-white p-6"><p class="font-extrabold">Ragu campur saat latihan</p><p class="mt-1 text-sm text-stone-600">Sesi pria & muslimah terpisah — latihan tenang sesuai prinsip.</p></div>
+        <div class="rounded-3xl border border-stone-200 bg-white p-6"><p class="font-extrabold">Pemula takut salah gerak</p><p class="mt-1 text-sm text-stone-600">Pendampingan coach + asesmen awal sebelum program.</p></div>
+        <div class="rounded-3xl border border-stone-200 bg-white p-6"><p class="font-extrabold">Mulai-berhenti terus</p><p class="mt-1 text-sm text-stone-600">Target transformasi + suasana homey bikin konsisten.</p></div>
+    </div>
+  </section>
+
+  <!-- 03 PROGRAM & KELAS -->
+  <!-- Ref: MuffinGroup — kartu jadwal nama/hari/jam/level + CTA trial tiap segmen -->
+  <section class="max-w-7xl mx-auto px-4 py-12 md:py-20" aria-labelledby="program">
     <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
-      <div class="md:col-span-7">
-        <p class="text-xs font-semibold tracking-widest uppercase text-emerald-800">Jadwal sesi</p>
-        <h2 id="jadwal" class="mt-2 text-3xl md:text-4xl tracking-tighter leading-none font-bold">Pilih slot sesimu</h2>
+      <div class="md:col-span-8">
+        <p class="font-mono-num text-xs font-bold uppercase tracking-[0.2em] text-emerald-800">Program &amp; kelas</p>
+        <h2 id="program" class="mt-2 text-3xl md:text-4xl font-black uppercase tracking-tighter">Jadwal yang bikin konsisten</h2>
       </div>
-      <p class="md:col-span-5 text-base text-stone-600">Ilustrasi pembagian slot — jam pasti tiap sesi berubah. Ketuk slot untuk tanya ketersediaan via DM.</p>
+      <p class="md:col-span-4 text-base text-stone-600">Label Terverifikasi = klaim IG resmi. <a class="underline underline-offset-4 font-semibold" href="/program">Semua program</a></p>
     </div>
-    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="dot-field rounded-[2.5rem] border border-stone-200/70 p-6 md:p-8">
-        <div class="flex items-baseline justify-between">
-          <h3 class="font-bold text-xl tracking-tight">Slot Pria</h3>
-          <span class="font-mono-num text-xs text-emerald-800 border border-emerald-800/30 rounded-full px-3 py-1">04 slot</span>
-        </div>
-        <div class="mt-5 grid grid-cols-2 gap-3">
-          {priaSlots.map((s, i) => (
-            <a href={slotCta(s + ' Pria')} class={`slot-tile reveal d${i + 1} block bg-white/90 backdrop-blur border border-stone-300 rounded-3xl p-5 active:scale-[0.98]`}>
-              <p class="font-mono-num text-xs text-stone-400">P.{i + 1}</p>
-              <p class="mt-1 font-semibold">{s}</p>
-              <p class="mt-1 text-xs text-stone-500">Tanya jam via DM</p>
-            </a>
-          ))}
-        </div>
-      </div>
-      <div class="dot-field rounded-[2.5rem] border border-emerald-800/25 bg-emerald-800/[0.03] p-6 md:p-8">
-        <div class="flex items-baseline justify-between">
-          <h3 class="font-bold text-xl tracking-tight">Slot Muslimah</h3>
-          <span class="font-mono-num text-xs text-white bg-emerald-800 rounded-full px-3 py-1">04 slot</span>
-        </div>
-        <div class="mt-5 grid grid-cols-2 gap-3">
-          {muslimahSlots.map((s, i) => (
-            <a href={slotCta(s + ' Muslimah')} class={`slot-tile reveal d${i + 1} block bg-white/90 backdrop-blur border border-emerald-800/25 rounded-3xl p-5 active:scale-[0.98]`}>
-              <p class="font-mono-num text-xs text-emerald-800/70">M.{i + 1}</p>
-              <p class="mt-1 font-semibold">{s}</p>
-              <p class="mt-1 text-xs text-stone-500">Tanya jam via DM</p>
-            </a>
-          ))}
-        </div>
-      </div>
+    <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <ClassCard name="Sesi Latihan Pria" day="Senin–Sabtu" time="Sesi pagi & sore*" level="Semua level" img="/images/jambi-bugar-1.jpg" alt="Area beban home gym islami Jambi Bugar Gym sesi pria" badge="Terverifikasi" cta={{ href: ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi & slot trial.`), label: 'Coba Trial' }} />
+        <ClassCard name="Sesi Latihan Muslimah" day="Senin–Sabtu" time="Sesi khusus wanita*" level="Semua level" img="/images/jambi-bugar-2.jpg" alt="Kelas kebugaran sesi wanita di Jambi Bugar Gym" badge="Terverifikasi" cta={{ href: ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi & slot trial.`), label: 'Coba Trial' }} />
+        <ClassCard name="Pendampingan Coach" day="By appointment" time="Fleksibel" level="Pemula" img="/images/jambi-bugar-3.jpg" alt="Coach mendampingi member latihan di Jambi Bugar Gym" badge="Estimasi" cta={{ href: ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi & slot trial.`), label: 'Coba Trial' }} />
+        <ClassCard name="Asesmen Awal & Target" day="Awal program" time="45 menit" level="Pemula" img="/images/jambi-bugar-4.jpg" alt="Asesmen kebugaran awal member Jambi Bugar Gym" badge="Estimasi" cta={{ href: ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi & slot trial.`), label: 'Coba Trial' }} />
+        <ClassCard name="Latihan Kekuatan Dasar" day="Mingguan" time="60 menit" level="Pemula" img="/images/jambi-bugar-5.jpg" alt="Sesi latihan kekuatan dasar Jambi Bugar Gym" badge="Estimasi" cta={{ href: ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi & slot trial.`), label: 'Coba Trial' }} />
+        <ClassCard name="Konsultasi Pola Latihan" day="By DM" time="Fleksibel" level="Semua level" img="/images/jambi-bugar-3.jpg" alt="Konsultasi pola latihan Jambi Bugar Gym" badge="Estimasi" cta={{ href: ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi & slot trial.`), label: 'Coba Trial' }} />
     </div>
-    <p class="mt-3 text-xs text-stone-400">Jam sesi aktual mengikuti postingan IG @jambibugar.gym — selalu konfirmasi sebelum datang.</p>
+    <p class="mt-3 text-xs text-stone-400">Foto konteks — ganti foto asli lokasi.</p>
+    <p class="mt-4 text-sm text-stone-500 md:hidden" aria-hidden="true">↓ Geser / gulir untuk lihat semua jadwal</p>
   </section>
 
-  <!-- PROGRAM RINGKAS -->
-  <section class="max-w-7xl mx-auto px-4 py-10" aria-labelledby="program">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-      <div class="md:col-span-7">
-        <div class="lift bg-white border border-stone-200/70 rounded-[2.5rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)]">
-          <img src="/images/jambi-bugar-2.jpg" alt="Kelas kebugaran sesi muslimah di Jambi Bugar Gym" width="800" height="600" loading="lazy" class="w-full aspect-[16/9] object-cover" />
-          <div class="p-8">
-            <p class="text-xs font-semibold tracking-widest uppercase text-emerald-800">Terverifikasi bio IG</p>
-            <p class="mt-1 font-semibold text-lg tracking-tight">Sesi pria &amp; muslimah terpisah</p>
-            <p class="text-base text-stone-600">Konsep inti rumah transformasi. <a class="underline underline-offset-4" href="/program">Lihat semua program</a>.</p>
-          </div>
-        </div>
+  <!-- 04 PELATIH -->
+  <section class="max-w-7xl mx-auto px-4 py-12 md:py-20" aria-labelledby="pelatih">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
+      <div class="md:col-span-8">
+        <p class="font-mono-num text-xs font-bold uppercase tracking-[0.2em] text-emerald-800">Pelatih</p>
+        <h2 id="pelatih" class="mt-2 text-3xl md:text-4xl font-black uppercase tracking-tighter">Didampingi, bukan dilepas</h2>
       </div>
+      <p class="md:col-span-4 text-base text-stone-600"><a class="underline underline-offset-4 font-semibold" href="/pelatih">Semua pelatih</a></p>
+    </div>
+    <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <CoachCard role="Coach Sesi Pria" spec="Strength & fatloss pria" credential="Sesi terpisah" desc="Panduan latihan sesi pria. Nama coach aktual cek IG." badge="Estimasi" />
+        <CoachCard role="Coach Sesi Wanita" spec="Kebugaran muslimah" credential="Sesi terpisah" desc="Panduan latihan sesi wanita. Nama coach aktual cek IG." badge="Estimasi" />
+        <CoachCard role="Pendamping Transformasi" spec="Target & kebiasaan" credential="Asesmen awal" desc="Pola latihan + kebiasaan. Detail program via DM IG." badge="Estimasi" />
+    </div>
+  </section>
+
+  <!-- 05 HARGA -->
+  <section class="max-w-7xl mx-auto px-4 py-12 md:py-20" aria-labelledby="harga">
+    <p class="font-mono-num text-xs font-bold uppercase tracking-[0.2em] text-emerald-800">Harga</p>
+    <h2 id="harga" class="mt-2 text-3xl md:text-4xl font-black uppercase tracking-tighter">Pilih paketmu</h2>
+    <div class="mt-8 grid grid-cols-1 gap-5 md:hidden">
+      {prices.slice(0, 3).map((p, i) => (
+        <article class:list={["relative rounded-3xl border p-6", i === 0 ? "border-emerald-800 bg-stone-900 text-white" : "border-stone-200 bg-white"]}>
+          {i === 0 && <p class="absolute -top-3 left-6 rounded-full bg-emerald-800 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-white">Terpopuler</p>}
+          <p class="font-mono-num text-[11px] font-bold uppercase tracking-[0.18em]">{p.badge}</p>
+          <h3 class="mt-1 font-extrabold">{p.name}</h3>
+          <p class="mt-1 font-mono-num text-2xl font-bold">{p.price}</p>
+          <p class="mt-1 text-sm opacity-80">{p.desc}</p>
+        </article>
+      ))}
+    </div>
+    <div class="mt-8 hidden md:block">
+      <PriceCompare accent="emerald-800" note="Harga estimasi — nomor WA resmi belum tersedia, konfirmasi tarif via DM IG @jambibugar.gym." items={prices.map((p, i) => ({ ...p, featured: i === 3, href: typeof heroCta === 'string' ? heroCta : '/kontak' }))} />
+    </div>
+    <p class="mt-4 text-sm text-stone-600 md:hidden">Harga estimasi — nomor WA resmi belum tersedia, konfirmasi tarif via DM IG @jambibugar.gym. <a class="underline underline-offset-4 font-semibold" href="/harga">Semua harga</a></p>
+  </section>
+
+  <!-- 06 TRIAL -->
+  <!-- Ref: Unbounce fitness — offer + risk-reversal -->
+  <section class="max-w-7xl mx-auto px-4 py-12 md:py-20" aria-labelledby="trial">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
       <div class="md:col-span-5">
-        <div class="lift bg-white border border-stone-200/70 rounded-[2.5rem] overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)]">
-          <img src="/images/jambi-bugar-3.jpg" alt="Coach mendampingi member latihan di Jambi Bugar Gym" width="800" height="600" loading="lazy" class="w-full aspect-[16/9] object-cover" />
-          <div class="p-8">
-            <p class="font-semibold text-lg tracking-tight">Didampingi coach</p>
-            <p class="text-base text-stone-600">Teknik benar sejak awal. <a class="underline underline-offset-4" href="/pelatih">Kenalan dengan pelatih</a>.</p>
-          </div>
-        </div>
+        <p class="font-mono-num text-xs font-bold uppercase tracking-[0.2em] text-emerald-800">Trial / konsultasi</p>
+        <h2 id="trial" class="mt-2 text-3xl md:text-4xl font-black uppercase tracking-tighter">Coba dulu, cocok baru lanjut</h2>
+        <p class="mt-3 text-base text-stone-600">Isi form 30 detik — otomatis lanjut ke kontak resmi. Tanpa komitmen, tanpa spam.</p>
+        <ul class="mt-4 space-y-2 text-sm text-stone-600">
+          <li>✓ Slot trial dicek manual admin</li>
+          <li>✓ Boleh tanya harga &amp; jadwal dulu</li>
+          <li>✓ Pemula dibantu mulai dari nol</li>
+        </ul>
+      </div>
+      <div class="md:col-span-7">
+        <TrialForm action="https://ig.me/m/jambibugar.gym" gymName={business.name} kind="dm" accent="emerald-800" />
       </div>
     </div>
   </section>
 
-  <!-- HARGA COCKPIT LIST -->
-  <section class="max-w-7xl mx-auto px-4 py-10" aria-labelledby="harga">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+  <!-- 07 PROOF -->
+  <!-- Ref: MuffinGroup — foto member asli + alat + instruktur aksi; Unbounce — proof -->
+  <section class="py-12 md:py-20" aria-labelledby="bukti">
+    <div class="max-w-7xl mx-auto px-4">
+      <p class="font-mono-num text-xs font-bold uppercase tracking-[0.2em] text-emerald-800">Bukti</p>
+      <h2 id="bukti" class="mt-2 text-3xl md:text-4xl font-black uppercase tracking-tighter">Kata mereka yang latihan</h2>
+      <div class="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
+        <figure class="rounded-3xl border border-stone-200 bg-white p-6"><div class="font-mono-num text-xs text-stone-400">Estimasi — ilustratif</div><blockquote class="mt-2 text-sm leading-relaxed text-stone-700">“Latihan tenang karena sesinya terpisah. Coach-nya sabar banget sama pemula.”</blockquote><figcaption class="mt-3 text-sm font-bold">Hamba Allah <span class="font-normal text-stone-500">— Member sesi muslimah</span></figcaption></figure>
+        <figure class="rounded-3xl border border-stone-200 bg-white p-6"><div class="font-mono-num text-xs text-stone-400">Estimasi — ilustratif</div><blockquote class="mt-2 text-sm leading-relaxed text-stone-700">“Tempatnya homey, alat cukup buat latihan rutin. Jadwal sesi jelas via DM.”</blockquote><figcaption class="mt-3 text-sm font-bold">Abdullah <span class="font-normal text-stone-500">— Member sesi pria</span></figcaption></figure>
+        <figure class="rounded-3xl border border-stone-200 bg-white p-6"><div class="font-mono-num text-xs text-stone-400">Estimasi — ilustratif</div><blockquote class="mt-2 text-sm leading-relaxed text-stone-700">“Suka ada target & asesmen awal, jadi progres kerasa bukan asal latihan.”</blockquote><figcaption class="mt-3 text-sm font-bold">Ummu F. <span class="font-normal text-stone-500">— Member transformasi</span></figcaption></figure>
+      </div>
+    </div>
+    <div class="mt-8">
+      <p class="max-w-7xl mx-auto px-4 font-mono-num text-xs uppercase tracking-[0.18em] text-stone-500">Galeri fasilitas — geser →</p>
+      <div class="snap-rail no-scrollbar mt-4 flex gap-4 overflow-x-auto px-4 md:px-[max(1rem,calc((100vw-80rem)/2+1rem))] pb-2">
+          <figure class="snap-item shrink-0 w-[80vw] sm:w-[360px] overflow-hidden rounded-3xl border border-stone-200 bg-white"><img src="/images/jambi-bugar-1.jpg" alt="Area beban home gym islami Jambi Bugar Gym sesi pria" width="800" height="600" loading="lazy" class="aspect-[4/3] w-full object-cover" /><figcaption class="px-4 py-3 text-xs text-stone-500">Foto konteks — ganti foto asli lokasi.</figcaption></figure>
+          <figure class="snap-item shrink-0 w-[80vw] sm:w-[360px] overflow-hidden rounded-3xl border border-stone-200 bg-white"><img src="/images/jambi-bugar-2.jpg" alt="Kelas kebugaran sesi wanita di Jambi Bugar Gym" width="800" height="600" loading="lazy" class="aspect-[4/3] w-full object-cover" /><figcaption class="px-4 py-3 text-xs text-stone-500">Foto konteks — ganti foto asli lokasi.</figcaption></figure>
+          <figure class="snap-item shrink-0 w-[80vw] sm:w-[360px] overflow-hidden rounded-3xl border border-stone-200 bg-white"><img src="/images/jambi-bugar-3.jpg" alt="Coach mendampingi member latihan di Jambi Bugar Gym" width="800" height="600" loading="lazy" class="aspect-[4/3] w-full object-cover" /><figcaption class="px-4 py-3 text-xs text-stone-500">Foto konteks — ganti foto asli lokasi.</figcaption></figure>
+          <figure class="snap-item shrink-0 w-[80vw] sm:w-[360px] overflow-hidden rounded-3xl border border-stone-200 bg-white"><img src="/images/jambi-bugar-4.jpg" alt="Asesmen kebugaran awal member Jambi Bugar Gym" width="800" height="600" loading="lazy" class="aspect-[4/3] w-full object-cover" /><figcaption class="px-4 py-3 text-xs text-stone-500">Foto konteks — ganti foto asli lokasi.</figcaption></figure>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 mt-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
       <div class="md:col-span-4">
-        <p class="text-xs font-semibold tracking-widest uppercase text-emerald-800">Harga</p>
-        <h2 id="harga" class="mt-2 text-3xl md:text-4xl tracking-tighter leading-none font-bold">Panel harga jujur</h2>
-        <p class="mt-3 text-base text-stone-600">Semua angka <strong>Estimasi</strong> — price list resmi hanya via DM IG. <a class="underline underline-offset-4 text-stone-900" href="/harga">Rincian lengkap</a></p>
+        <h3 class="font-extrabold text-lg">Lokasi &amp; jam</h3>
+        <p class="mt-2 text-sm text-stone-600">{business.address}.<br />{business.hours}.</p>
+        <a href="/kontak" class="mt-4 inline-flex min-h-[48px] items-center rounded-full border border-stone-300 px-6 text-sm font-bold uppercase tracking-wide">Rute &amp; kontak</a>
       </div>
       <div class="md:col-span-8">
-        <ol class="bg-white border border-stone-200/70 rounded-[2.5rem] divide-y divide-stone-200/80 px-7 md:px-9 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)]">
-          {prices.slice(0, 5).map((p, i) => (
-            <li class="flex items-baseline gap-4 py-5">
-              <span class="font-mono-num text-xs text-emerald-800 w-7 shrink-0">0{i + 1}</span>
-              <div class="min-w-0 flex-1">
-                <p class="font-semibold tracking-tight truncate">{p.name}</p>
-                <p class="text-xs text-stone-500">{p.badge}</p>
-              </div>
-              <span class="font-mono-num font-semibold text-sm md:text-base whitespace-nowrap">{p.price}</span>
-            </li>
-          ))}
-        </ol>
+        <MapFacade src={business.mapsEmbed} title="Peta Jambi Bugar Jambi" mapsUrl={business.mapsUrl} />
       </div>
     </div>
   </section>
 
-  <!-- LOKASI -->
-  <section class="max-w-7xl mx-auto px-4 py-10" aria-labelledby="lokasi">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
-      <div class="md:col-span-4">
-        <p class="text-xs font-semibold tracking-widest uppercase text-emerald-800">Lokasi</p>
-        <h2 id="lokasi" class="mt-2 text-3xl md:text-4xl tracking-tighter leading-none font-bold">Tanya alamat via DM IG</h2>
-        <p class="mt-3 text-base text-stone-600 max-w-[65ch]">{business.address}. <a class="underline underline-offset-4 text-stone-900" href="/kontak">Hubungi &amp; rute</a></p>
-      </div>
-      <div class="md:col-span-8">
-        <div class="rounded-[2.5rem] overflow-hidden border border-stone-200/70 aspect-video bg-stone-100">
-          <iframe title="Peta Jambi Bugar Gym" src={business.mapsEmbed} loading="lazy" class="w-full h-full"></iframe>
-        </div>
+  <!-- 08 FAQ + FINAL CTA -->
+  <section class="max-w-7xl mx-auto px-4 py-12 md:py-20" aria-labelledby="faq">
+    <p class="font-mono-num text-xs font-bold uppercase tracking-[0.2em] text-emerald-800">FAQ</p>
+    <h2 id="faq" class="mt-2 text-3xl md:text-4xl font-black uppercase tracking-tighter">Masih ragu? Wajar.</h2>
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+      <div class="md:col-span-7"><Faq items={faqs} /></div>
+      <div class={`md:col-span-5 rounded-3xl bg-stone-900 p-8 text-white`}>
+        <p class="font-mono-num text-xs uppercase tracking-[0.18em] text-white/60">Final CTA — tanpa risiko</p>
+        <p class="mt-2 text-2xl font-black uppercase tracking-tight">Slot trial minggu ini terbatas</p>
+        <p class="mt-2 text-sm text-white/70">Amankan slotmu sekarang — gratis tanya, tanpa komitmen.</p>
+        <a href={heroCta} class="mt-6 inline-flex min-h-[48px] items-center rounded-full bg-white px-8 text-sm font-black uppercase tracking-wide text-stone-900 transition hover:opacity-90 active:scale-[0.98]">Tanya via DM IG</a>
       </div>
     </div>
   </section>
