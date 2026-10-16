@@ -1,38 +1,120 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { business, coaches, ctaLink } from '../data/business';
-const heroCta = ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi.`);
----
-<!-- Ref: Unbounce fitness — head (hook) + content + CTA -->
-<BaseLayout title="Kenalan dengan coach — Jambi Bugar Gym Jambi" description="Rumah Transformasi — Nyaman | Aman | Syari" canonicalPath="/Pelatih" image={business.ogImage}>
-  <section class="bg-stone-900 text-white" aria-labelledby="subhead">
-    <div class="max-w-7xl mx-auto px-4 pt-14 pb-12 md:pt-20 md:pb-16">
-      <nav class="font-mono-num text-xs uppercase tracking-[0.18em] text-white/60" aria-label="Breadcrumb"><a href="/" class="hover:text-white">Beranda</a> / Pelatih & instruktur</nav>
-      <h1 id="subhead" class="mt-3 max-w-[20ch] text-3xl md:text-5xl font-black uppercase tracking-tighter">Kenalan dengan coach</h1>
-      <p class="mt-3 max-w-[60ch] text-base text-white/75">Coach & instruktur yang mendampingi tiap sesi latihanmu.</p>
-      <a href={heroCta} class="mt-6 inline-flex min-h-[48px] items-center rounded-full bg-emerald-800 px-7 text-sm font-black uppercase tracking-wide text-white transition hover:opacity-90">Tanya via DM IG</a>
-    </div>
-  </section>
+import PageHero from '../components/PageHero.astro';
+import CoachProfile from '../components/CoachProfile.astro';
+import ContactRuled from '../components/ContactRuled.astro';
+import ProgramSessions from '../components/ProgramSessions.astro';
+import EduList from '../components/EduList.astro';
+import ScheduleTable from '../components/ScheduleTable.astro';
+import LocationSection from '../components/LocationSection.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { business, programs, coachNoe, adminContact, coachDirectoryNote, waLink } from '../data/business';
 
-  <section class="max-w-7xl mx-auto px-4 py-12 md:py-20" aria-label="Daftar pelatih">
-    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {coaches.map((c) => (
-        <article class="rounded-3xl border border-stone-200 bg-white p-6">
-          <div class="grid h-14 w-14 place-items-center rounded-2xl bg-emerald-800 font-mono-num text-lg font-bold text-white" aria-hidden="true">{c.role.slice(0, 1)}</div>
-          <p class="mt-4 font-mono-num text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-800">{c.badge}</p>
-          <h2 class="mt-1 text-lg font-extrabold tracking-tight">{c.role}</h2>
-          <p class="mt-2 text-sm leading-relaxed text-stone-600">{c.desc}</p>
-          <a href={heroCta} class="mt-4 inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-800 px-5 text-sm font-bold uppercase tracking-wide text-emerald-800 transition hover:bg-emerald-800 hover:text-white">Tanya Coach</a>
-        </article>
-      ))}
-    </div>
-    <p class="mt-4 text-xs text-stone-500">Nama coach aktual dapat berubah — konfirmasi via kontak resmi sebelum datang.</p>
-  </section>
-  <section class="max-w-7xl mx-auto px-4 pb-12 md:pb-20" aria-label="Ajakan">
-    <div class="rounded-3xl bg-stone-900 p-8 text-white md:p-10">
-      <p class="text-2xl font-black uppercase tracking-tight">Mau didampingi dari nol?</p>
-      <p class="mt-2 text-sm text-white/70">Ceritakan tujuanmu — coach bantu susun langkah pertama.</p>
-      <a href={heroCta} class="mt-5 inline-flex min-h-[48px] items-center rounded-full bg-white px-8 text-sm font-black uppercase tracking-wide text-stone-900">Tanya via DM IG</a>
-    </div>
-  </section>
+const waAdmin = waLink(adminContact.phone, `Halo admin ${business.name}, saya mau tanya jadwal pelatih & sesi.`);
+
+const crumbTrail = [
+  { name: 'Beranda', url: '/' },
+  { name: 'Pelatih', url: '/pelatih' },
+];
+
+const facts = [
+  { k: 'Pelatih utama', v: `${coachNoe.name} (${coachNoe.fullName})` },
+  { k: 'Peran', v: 'Penggagas & pelatih berlisensi nasional' },
+  { k: 'Pendekatan', v: 'Edukasi teknik sebelum menambah beban' },
+  { k: 'Kontak', v: `${coachNoe.phone} (pelatih) · ${adminContact.phone} (admin)` },
+];
+
+const contacts = [
+  { name: coachNoe.name, role: `${coachNoe.fullName} — ${coachNoe.role}`, phone: coachNoe.phone, wa: waLink(coachNoe.phone, `Assalamualaikum ${coachNoe.name}, saya mau tanya pendekatan latihan di ${business.name}.`), tag: 'Pelatih berlisensi' },
+  { name: adminContact.name, role: adminContact.role, phone: adminContact.phone, wa: waAdmin, tag: 'Admin' },
+];
+
+const eduGroups = [
+  { title: 'Prinsip latihan', items: [
+    'Teknik benar lebih dulu; beban menyusul setelah gerakan stabil.',
+    'Progres bertahap dan terukur, bukan kejutan beban di awal.',
+    'Pemulihan dihitung sebagai bagian latihan, bukan kemalasan.',
+  ] },
+  { title: 'Cara mulai', items: [
+    'Hubungi admin, sebutkan kamu memilih sesi pria atau sesi muslimah.',
+    'Lakukan asesmen awal untuk mencatat kondisi dan target.',
+    'Mulai sesi perdana dengan pendampingan coach.',
+  ] },
+  { title: 'Aturan sesi', items: [
+    'Sesi pria dan sesi muslimah dijalankan terpisah.',
+    'Hadir sesuai jadwal yang dikonfirmasi admin.',
+    'Informasikan riwayat cedera atau kondisi kesehatan sebelum mulai.',
+  ] },
+];
+
+const scheduleRows = [
+  { name: 'Sesi latihan pria', audience: 'Pria', schedule: 'Hari & jam dikonfirmasi via admin' },
+  { name: 'Sesi latihan muslimah', audience: 'Wanita', schedule: 'Hari & jam dikonfirmasi via admin' },
+  { name: 'Pendampingan coach', audience: 'Semua level', schedule: 'Dengan janji temu bersama coach' },
+];
+---
+<BaseLayout
+  title="Pelatih & coach Jambi Bugar Gym — sesi pria & muslimah"
+  description="Kenali Coach Noe (Muhammad Nor), penggagas dan pelatih berlisensi nasional Jambi Bugar Gym, plus kontak admin untuk jadwal sesi pria dan muslimah. Pendekatan edukatif, tanpa profil karangan."
+  canonicalPath="/pelatih"
+  image={coachNoe.img}
+  breadcrumbs={crumbTrail}
+>
+  <PageHero
+    eyebrow="Pelatih & pendampingan"
+    title="Kami mengajar cara latihan, bukan menjual hasil instan"
+    lead="Halaman ini menunjukkan siapa yang mendampingi latihanmu dan bagaimana cara menghubunginya. Kami hanya menampilkan profil yang benar-benar terverifikasi — bukan daftar nama hasil karangan."
+    image="/images/jambi-bugar-5.jpg"
+    imageAlt="Rak dumbel di area latihan Jambi Bugar Gym, tanpa orang"
+    imageCaption="Alat latihan kekuatan — visual non-wajah"
+    crumbs={crumbTrail}
+    ctas={[
+      { href: waAdmin, label: 'Tanya jadwal sesi', icon: 'whatsapp' },
+      { href: '/program', label: 'Lihat program', variant: 'ghost' },
+    ]}
+    facts={facts}
+  />
+
+  <CoachProfile coach={coachNoe} />
+
+  <ContactRuled
+    heading="Kontak pelatih & admin"
+    lead="Coach Noe untuk pertanyaan seputar pendekatan dan teknik latihan; Coach Iir (admin) untuk jadwal, pendaftaran, dan tarif."
+    entries={contacts}
+    note={coachDirectoryNote}
+  />
+
+  <ProgramSessions
+    heading="Sesi yang didampingi pelatih"
+    lead="Dua sesi berjalan dan terverifikasi dari kanal resmi; dua lainnya masih estimasi dan perlu konfirmasi admin."
+    items={programs}
+    ctaHref={waAdmin}
+    ctaLabel="Tanya sesi ini"
+    note="Tanda Estimasi berarti detailnya belum ada di sumber resmi — konfirmasi via admin sebelum mendaftar."
+  />
+
+  <EduList
+    heading="Yang kami ajarkan sebelum angkat beban"
+    lead="Materi edukasi dasar yang selalu disampaikan di awal, agar latihan aman dan berkelanjutan."
+    groups={eduGroups}
+  />
+
+  <ScheduleTable
+    heading="Jadwal sesi & pendampingan"
+    lead="Jadwal mengikuti sesi pria/muslimah yang terpisah. Angka jam pasti dikonfirmasi admin."
+    rows={scheduleRows}
+    note="Catatan resmi gym: sesi pria/wanita terpisah, jadwal menyusul via kanal resmi. Konfirmasi tercepat lewat WhatsApp admin."
+  />
+
+  <LocationSection
+    heading="Lokasi latihan"
+    lead="Kota Jambi. Admin akan mengarahkan rute paling akurat sebelum kunjungan pertamamu."
+  />
+
+  <CtaBand
+    heading="Ingin didampingi dari nol?"
+    body="Sampaikan kondisi dan tujuanmu. Admin akan mengatur sesi perdana bersama Coach Noe."
+    waHref={waAdmin}
+    igUrl={business.instagram}
+  />
 </BaseLayout>

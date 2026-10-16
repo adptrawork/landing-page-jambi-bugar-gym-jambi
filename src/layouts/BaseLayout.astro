@@ -1,66 +1,136 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
+import Icon from '../components/Icon.astro';
 import '../styles/global.css';
-interface Props { title: string; description: string; canonicalPath?: string; image?: string; }
-const { title, description, canonicalPath = '/', image } = Astro.props;
+import { business, coachNoe, adminContact, waLink } from '../data/business';
+
+interface Crumb { name: string; url: string; }
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  image?: string;
+  breadcrumbs?: Crumb[];
+}
+const { title, description, canonicalPath = '/', image, breadcrumbs } = Astro.props;
 const site = (Astro.site?.toString() ?? 'https://jambibugar-jambi.pages.dev').replace(/\/$/, '');
 const canonicalUrl = `${site}${canonicalPath}`;
-import { business, ctaLink } from '../data/business';
-const cta = ctaLink(`Halo Jambi Bugar Gym, saya mau tanya jadwal sesi pria/wanita.`);
+
+const nav = [
+  { href: '/', label: 'Beranda' },
+  { href: '/program', label: 'Program' },
+  { href: '/pelatih', label: 'Pelatih' },
+  { href: '/harga', label: 'Harga' },
+  { href: '/kontak', label: 'Kontak' },
+];
+const path = canonicalPath.replace(/\/$/, '') || '/';
+const headerCta = waLink(adminContact.phone, `Halo ${business.name}, saya mau tanya jadwal sesi & pendaftaran.`);
+const coachCta = waLink(coachNoe.phone, `Halo Coach Noe, saya mau tanya pendekatan latihan di ${business.name}.`);
+const igUrl = business.instagram;
 ---
 <!doctype html>
 <html lang="id">
 <head>
-  <BaseHead title={title} description={description} canonicalUrl={canonicalUrl} image={image} />
+  <BaseHead title={title} description={description} canonicalUrl={canonicalUrl} image={image} breadcrumbs={breadcrumbs} />
 </head>
-<body class="bg-stone-50 text-stone-900 antialiased">
-  <div class="border-b border-emerald-800/15 bg-emerald-800/[0.05]">
-    <p class="max-w-7xl mx-auto px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-800">Rumah Transformasi &mdash; Nyaman, Aman, Syari &bull; Sesi Pria &amp; Muslimah terpisah</p>
+<body>
+  <a href="#main" class="skip-link btn btn-primary">Lewati ke konten</a>
+
+  <!-- Strip identitas -->
+  <div class="on-dark bg-forest text-paper">
+    <div class="shell flex items-center justify-between gap-4 py-2">
+      <p class="eyebrow">Rumah Transformasi &mdash; Nyaman &middot; Aman &middot; Syari</p>
+      <p class="eyebrow hidden text-paper/75 sm:block">Sesi pria &amp; muslimah terpisah</p>
+    </div>
   </div>
-  <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Buka tutup menu navigasi" />
-  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-stone-200/70">
-    <nav class="max-w-7xl mx-auto flex items-center justify-between gap-3 px-4 py-3" aria-label="Navigasi utama">
-      <a href="/" class="flex items-center gap-2.5 min-h-[48px]">
-        <span class="grid place-items-center w-9 h-9 rounded-xl bg-emerald-800 text-white font-black" aria-hidden="true">B</span>
-        <span class="font-black tracking-tight uppercase leading-none">Jambi Bugar<small class="block text-[10px] font-bold tracking-[0.2em] text-emerald-800">HOME GYM ISLAMI</small></span>
+
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Buka atau tutup menu navigasi" />
+
+  <header class="sticky top-0 z-40 border-b border-ink/15 bg-paper/92 backdrop-blur">
+    <nav class="shell flex items-center justify-between gap-4 py-3" aria-label="Navigasi utama">
+      <a href="/" class="flex items-center gap-3" aria-label={`${business.name} — beranda`}>
+        <span class="grid h-10 w-10 place-items-center rounded-[2px] bg-forest font-display text-base font-bold text-paper" aria-hidden="true">JB</span>
+        <span class="leading-none">
+          <span class="block font-display text-lg font-bold tracking-tight">Jambi Bugar</span>
+          <span class="eyebrow mt-1 block text-accent">Home Gym Islami</span>
+        </span>
       </a>
-      <div class="hidden md:flex items-center gap-6 text-sm font-bold uppercase tracking-wide text-stone-600">
-        <a href="/" class="min-h-[48px] inline-flex items-center hover:text-emerald-800 transition">Beranda</a>
-        <a href="/program" class="min-h-[48px] inline-flex items-center hover:text-emerald-800 transition">Program</a>
-        <a href="/pelatih" class="min-h-[48px] inline-flex items-center hover:text-emerald-800 transition">Pelatih</a>
-        <a href="/harga" class="min-h-[48px] inline-flex items-center hover:text-emerald-800 transition">Harga</a>
-        <a href="/kontak" class="min-h-[48px] inline-flex items-center hover:text-emerald-800 transition">Kontak</a>
+
+      <div class="hidden items-center gap-7 md:flex">
+        {nav.map((n) => (
+          <a href={n.href} class:list={["relative py-2 text-sm font-medium tracking-wide transition-colors", n.href === path ? "text-ink" : "text-ink/65 hover:text-ink"]}>
+            {n.label}
+            {n.href === path && <span class="absolute inset-x-0 -bottom-0.5 h-px bg-accent" aria-hidden="true"></span>}
+          </a>
+        ))}
       </div>
+
       <div class="flex items-center gap-2">
-        <a href={cta} class="hidden sm:inline-flex items-center min-h-[48px] px-5 rounded-full text-sm font-bold uppercase tracking-wide bg-emerald-800 text-white transition hover:bg-emerald-900 active:scale-[0.98]">Tanya via DM IG</a>
-        <label for="nav-toggle" class="burger md:hidden grid place-items-center min-w-[48px] min-h-[48px] rounded-xl border border-stone-300 cursor-pointer" aria-hidden="true"><span></span><span></span><span></span></label>
+        <a href={headerCta} class="btn btn-primary hidden sm:inline-flex">
+          <Icon name="whatsapp" size={18} />Tanya via WhatsApp
+        </a>
+        <label for="nav-toggle" class="burger grid min-h-[48px] min-w-[48px] cursor-pointer place-items-center rounded-[2px] border border-ink/20 text-ink md:hidden" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </label>
       </div>
-      <div class="mobile-menu absolute inset-x-0 top-full bg-white border-b border-stone-200 shadow-lg md:hidden">
-        <div class="px-4 py-3 flex flex-col text-sm font-bold uppercase tracking-wide">
-          <a href="/" class="min-h-[48px] inline-flex items-center border-b border-stone-100">Beranda</a>
-          <a href="/program" class="min-h-[48px] inline-flex items-center border-b border-stone-100">Program</a>
-          <a href="/pelatih" class="min-h-[48px] inline-flex items-center border-b border-stone-100">Pelatih</a>
-          <a href="/harga" class="min-h-[48px] inline-flex items-center border-b border-stone-100">Harga</a>
-          <a href="/kontak" class="min-h-[48px] inline-flex items-center border-b border-stone-100">Kontak</a>
-          <a href={cta} class="mt-3 inline-flex items-center justify-center min-h-[48px] rounded-full bg-emerald-800 text-white">Tanya via DM IG</a>
+
+      <div class="mobile-menu absolute inset-x-0 top-full border-b border-ink/15 bg-paper shadow-sm md:hidden">
+        <div class="shell flex flex-col py-2">
+          {nav.map((n) => (
+            <a href={n.href} class:list={["flex min-h-[48px] items-center border-b border-ink/10 font-display text-lg", n.href === path ? "text-accent" : "text-ink"]}>{n.label}</a>
+          ))}
+          <a href={headerCta} class="btn btn-primary mt-4 mb-2 w-full">
+            <Icon name="whatsapp" size={18} />Tanya via WhatsApp
+          </a>
         </div>
       </div>
     </nav>
   </header>
-  <main><slot /></main>
-  <footer class="mt-20 bg-stone-900 text-white">
-    <div class="max-w-7xl mx-auto px-4 py-12 grid gap-8 grid-cols-1 md:grid-cols-12">
-      <div class="md:col-span-7">
-        <p class="font-black uppercase tracking-tight text-xl">Jambi Bugar Jambi</p>
-        <p class="mt-2 text-base text-white/70 leading-relaxed max-w-[65ch]">{business.address} &mdash; {business.hours}</p>
-      </div>
+
+  <main id="main"><slot /></main>
+
+  <footer class="on-dark mt-20 bg-forest text-paper">
+    <div class="shell grid gap-10 py-14 md:grid-cols-12 md:py-16">
       <div class="md:col-span-5">
-        <p class="font-bold text-sm uppercase tracking-widest">Hubungi</p>
-        <div class="mt-3 flex flex-col gap-2 text-sm font-medium">
-          <a href={business.instagram} class="underline underline-offset-4 min-h-[48px] inline-flex items-center">Instagram @jambibugar.gym</a>
-          <a href={business.mapsUrl} class="underline underline-offset-4 min-h-[48px] inline-flex items-center">Google Maps &mdash; rute ke lokasi</a>
-        </div>
-        <p class="mt-6 text-xs text-white/40">&copy; 2026 Jambi Bugar &mdash; Kota Jambi.</p>
+        <p class="font-display text-2xl font-bold">Jambi Bugar Gym</p>
+        <p class="mt-3 max-w-[38ch] text-sm leading-relaxed text-paper/75">
+          {business.address}. {business.hours}.
+        </p>
+        <a href={igUrl} class="mt-5 inline-flex items-center gap-2 text-sm text-paper/90 underline decoration-paper/40 underline-offset-4 hover:decoration-paper">
+          <Icon name="instagram" size={18} />@JambiBugar.Gym
+        </a>
+      </div>
+
+      <div class="md:col-span-4">
+        <p class="eyebrow text-paper/70">Kontak</p>
+        <ul class="mt-4">
+          <li class="ruled-item border-paper/20 py-3">
+            <a href={coachCta} class="flex min-h-[32px] items-center justify-between gap-4 hover:text-white">
+              <span class="text-sm">Coach Noe &mdash; pelatih</span>
+              <span class="inline-flex items-center gap-2 text-sm text-paper/75"><Icon name="whatsapp" size={16} />0812-4597-0801</span>
+            </a>
+          </li>
+          <li class="ruled-item border-paper/20 py-3">
+            <a href={headerCta} class="flex min-h-[32px] items-center justify-between gap-4 hover:text-white">
+              <span class="text-sm">Coach Iir &mdash; admin</span>
+              <span class="inline-flex items-center gap-2 text-sm text-paper/75"><Icon name="whatsapp" size={16} />0853-7952-9017</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="md:col-span-3">
+        <p class="eyebrow text-paper/70">Halaman</p>
+        <ul class="mt-4 flex flex-col text-sm">
+          {nav.map((n) => (<li><a href={n.href} class="inline-flex min-h-[32px] items-center text-paper/80 hover:text-white">{n.label}</a></li>))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-paper/15">
+      <div class="shell flex flex-col gap-2 py-6 text-xs text-paper/55 sm:flex-row sm:items-center sm:justify-between">
+        <p>&copy; 2026 Jambi Bugar Gym &mdash; Kota Jambi.</p>
+        <p>Foto: visual non-wajah, domain publik / Wikimedia Commons (lihat catatan repositori).</p>
       </div>
     </div>
   </footer>

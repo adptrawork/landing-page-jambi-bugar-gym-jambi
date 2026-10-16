@@ -1,208 +1,108 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import StatsStrip from '../components/StatsStrip.astro';
-import ClassCard from '../components/ClassCard.astro';
-import CoachCard from '../components/CoachCard.astro';
-import PriceCompare from '../components/PriceCompare.astro';
-import TrialForm from '../components/TrialForm.astro';
-import Faq from '../components/Faq.astro';
-import MapFacade from '../components/MapFacade.astro';
-import { business, prices, ctaLink } from '../data/business';
-const heroCta = ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi & slot trial.`);
-const faqs = [
-    { q: 'Bagaimana sistem sesi pria/wanita?', a: 'Jadwal latihan terpisah sesuai bio IG resmi "Nyaman | Aman | Syari". Jam sesi per hari cek DM/postingan @jambibugar.gym.' },
-    { q: 'Apakah cocok untuk pemula total?', a: 'Cocok — ada pendampingan coach & asesmen awal. Sampaikan kondisimu saat DM pertama.' },
-    { q: 'Bagaimana cara daftar & bayar?', a: 'Semua via DM IG @jambibugar.gym dulu (jadwal → slot → pembayaran). Belum ada nomor WA resmi.' },
-    { q: 'Di mana lokasinya?', a: 'Kota Jambi — alamat & jam sesi konfirmasi via DM IG, rute via Google Maps.' },
-    { q: 'Harga di web ini pasti?', a: 'Harga paket bersifat estimasi. Konfirmasi tarif akhir via DM IG sebelum bayar.' }
+import PageHero from '../components/PageHero.astro';
+import CoachProfile from '../components/CoachProfile.astro';
+import ContactRuled from '../components/ContactRuled.astro';
+import ProgramSessions from '../components/ProgramSessions.astro';
+import EduList from '../components/EduList.astro';
+import ScheduleTable from '../components/ScheduleTable.astro';
+import LocationSection from '../components/LocationSection.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { business, programs, coachNoe, adminContact, coachDirectoryNote, waLink } from '../data/business';
+
+const waAdmin = waLink(adminContact.phone, `Halo admin ${business.name}, saya mau tanya jadwal sesi & pendaftaran.`);
+
+const facts = [
+  { k: 'Sesi', v: 'Pria & muslimah dijalankan terpisah' },
+  { k: 'Pendampingan', v: 'Coach & asesmen awal sebelum program' },
+  { k: 'Suasana', v: 'Home gym yang tenang, bukan ajang pamer' },
+  { k: 'Kontak', v: 'WhatsApp Coach Noe & admin' },
 ];
-const statsItems = '848~pengikut IG resmi|2~sesi terpisah pria & wanita|4+~program transformasi|226~postingan edukasi IG'.split('|').map((s) => ({ value: s.split('~')[0], label: s.split('~')[1] }));
+
+const contacts = [
+  { name: coachNoe.name, role: coachNoe.role + ' — ' + coachNoe.fullName, phone: coachNoe.phone, wa: waLink(coachNoe.phone, `Assalamualaikum ${coachNoe.name}, saya mau tanya pendekatan latihan di ${business.name}.`), tag: 'Pelatih' },
+  { name: adminContact.name, role: adminContact.role, phone: adminContact.phone, wa: waAdmin, tag: 'Admin' },
+];
+
+const eduGroups = [
+  { title: 'Prinsip latihan', items: [
+    'Mulai dari teknik yang benar, bukan beban yang berat.',
+    'Naikkan beban atau repetisi sedikit demi sedikit setiap pekan.',
+    'Sisipkan pemulihan — otot tumbuh saat istirahat, bukan saat dipaksa.',
+  ] },
+  { title: 'Cara mulai', items: [
+    'Hubungi admin untuk memilih sesi pria atau sesi muslimah.',
+    'Jalani asesmen awal: catat kondisi dan target yang realistis.',
+    'Ikuti sesi perdana didampingi coach, lalu evaluasi tiap beberapa pekan.',
+  ] },
+  { title: 'Aturan sesi', items: [
+    'Sesi pria dan sesi muslimah berjalan terpisah, sesuai bio resmi gym.',
+    'Datang sesuai jadwal yang sudah dikonfirmasi admin.',
+    'Sampaikan kondisi kesehatan atau cedera sebelum latihan dimulai.',
+  ] },
+];
+
+const scheduleRows = [
+  { name: 'Sesi latihan pria', audience: 'Pria', schedule: 'Hari & jam dikonfirmasi via admin (WhatsApp)' },
+  { name: 'Sesi latihan muslimah', audience: 'Wanita', schedule: 'Hari & jam dikonfirmasi via admin (WhatsApp)' },
+  { name: 'Asesmen & konsultasi', audience: 'Semua level', schedule: 'Dengan janji temu bersama admin' },
+];
 ---
-<!-- Ref: Unbounce fitness — hero → problem → solution → proof → offer → risk-reversal → CTA -->
-<!-- Ref: MuffinGroup — hero kuat + program Upper Body Blast dsb + CTA trial tiap segmen + foto member/alat/instruktur aksi -->
-<!-- Ref: NYSC — 1 warna pop emerald-800 + font treatment beda (mono angka/label) -->
 <BaseLayout title={business.title} description={business.description} canonicalPath="/" image={business.ogImage}>
-  <!-- 01 HERO -->
-  <section class="relative w-full overflow-hidden bg-stone-900 text-white" aria-labelledby="hero">
-    <img src="/images/jambi-bugar-1.jpg" alt="Area beban home gym islami Jambi Bugar Gym sesi pria" width="800" height="533" loading="eager" fetchpriority="high" decoding="async" class="absolute inset-0 h-full w-full object-cover" />
-    <div class="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/70 to-stone-900/25" aria-hidden="true"></div>
-    <div class="relative max-w-7xl mx-auto px-4 pt-20 pb-32 md:pt-28 md:pb-44">
-      <p class="rise d1 inline-flex items-center gap-2 rounded-full border border-white/30 bg-stone-900/60 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-white/90">SESI TERPISAH &bull; Jambi</p>
-      <h1 id="hero" class="rise d2 mt-5 max-w-[16ch] text-4xl md:text-6xl font-black uppercase leading-[0.95] tracking-tighter">Rumah transformasi yang nyaman & syari</h1>
-      <p class="rise d3 mt-5 max-w-[52ch] text-base leading-relaxed text-white/80">Latihan kekuatan sesi pria dan muslimah terpisah, didampingi coach, suasana tenang.</p>
-      <div class="rise d3 mt-8 flex flex-wrap gap-3">
-        <a href={heroCta} class="inline-flex min-h-[48px] items-center rounded-full bg-emerald-800 px-8 font-black uppercase tracking-wide text-sm text-white transition hover:opacity-90 active:scale-[0.98]">Tanya via DM IG</a>
-        <a href="/harga" class="inline-flex min-h-[48px] items-center rounded-full border border-white/50 px-8 font-bold uppercase tracking-wide text-sm hover:bg-white hover:text-stone-900 active:scale-[0.98]">Lihat Harga</a>
-      </div>
-      <p class="rise d4 mt-6 font-mono-num text-xs uppercase tracking-[0.18em] text-white/60">Program unggulan: Sesi Pria & Muslimah Terpisah</p>
-    </div>
-  </section>
+  <PageHero
+    eyebrow="Home gym islami — Kota Jambi"
+    title="Latihan yang dipahami, bukan sekadar diikuti"
+    lead="Jambi Bugar Gym adalah rumah transformasi islami dengan sesi pria dan muslimah terpisah. Kami menekankan pemahaman cara latihan: teknik dasar, asesmen awal, dan pendampingan coach — bukan janji hasil instan."
+    image="/images/jambi-bugar-1.jpg"
+    imageAlt="Rak dumbel di area beban Jambi Bugar Gym, tanpa orang"
+    imageCaption="Area latihan kekuatan — visual non-wajah"
+    ctas={[
+      { href: waAdmin, label: 'Tanya via WhatsApp', icon: 'whatsapp' },
+      { href: '/pelatih', label: 'Kenali pelatih', variant: 'ghost' },
+    ]}
+    facts={facts}
+  />
 
-  <!-- 02 STATS STRIP -->
-  <StatsStrip items={statsItems} note="Pengikut & postingan terverifikasi IG @jambibugar.gym (16 Okt 2026)." accent="emerald-800" />
+  <CoachProfile coach={coachNoe} />
 
-  <!-- MARQUEE -->
-  <div class="marquee bg-stone-900 text-white border-t border-white/10 py-3" aria-label="Sorotan layanan">
-    <div class="marquee-track font-black uppercase tracking-widest text-sm">
-      <div class="flex shrink-0" aria-hidden="false">
-              {<span class="px-6 py-1 whitespace-nowrap">Sesi Pria Terpisah <span class="ml-6 opacity-50">/</span></span>}
-              {<span class="px-6 py-1 whitespace-nowrap">Sesi Muslimah Terpisah <span class="ml-6 opacity-50">/</span></span>}
-              {<span class="px-6 py-1 whitespace-nowrap">Pendampingan Coach <span class="ml-6 opacity-50">/</span></span>}
-              {<span class="px-6 py-1 whitespace-nowrap">Asesmen Awal <span class="ml-6 opacity-50">/</span></span>}
-              {<span class="px-6 py-1 whitespace-nowrap">Nyaman <span class="ml-6 opacity-50">/</span></span>}
-              {<span class="px-6 py-1 whitespace-nowrap">Aman <span class="ml-6 opacity-50">/</span></span>}
-              {<span class="px-6 py-1 whitespace-nowrap">Syari <span class="ml-6 opacity-50">/</span></span>}
-              {<span class="px-6 py-1 whitespace-nowrap">DM IG <span class="ml-6 opacity-50">/</span></span>}
-      </div>
-      <div class="flex shrink-0" aria-hidden="true">
-              {<span class="px-6 py-1 whitespace-nowrap">Sesi Pria Terpisah <span class="ml-6 opacity-50">/</span></span>}
-              {<span class="px-6 py-1 whitespace-nowrap">Sesi Muslimah Terpisah <span class="ml-6 opacity-50">/</span></span>}
-              {<span class="px-6 py-1 whitespace-nowrap">Pendampingan Coach <span class="ml-6 opacity-50">/</span></span>}
-              {<span class="px-6 py-1 whitespace-nowrap">Asesmen Awal <span class="ml-6 opacity-50">/</span></span>}
-              {<span class="px-6 py-1 whitespace-nowrap">Nyaman <span class="ml-6 opacity-50">/</span></span>}
-              {<span class="px-6 py-1 whitespace-nowrap">Aman <span class="ml-6 opacity-50">/</span></span>}
-              {<span class="px-6 py-1 whitespace-nowrap">Syari <span class="ml-6 opacity-50">/</span></span>}
-              {<span class="px-6 py-1 whitespace-nowrap">DM IG <span class="ml-6 opacity-50">/</span></span>}
-      </div>
-    </div>
-  </div>
+  <ContactRuled
+    heading="Bicara langsung dengan pelatih atau admin"
+    lead="Satu nomor untuk pendampingan latihan, satu nomor untuk jadwal dan pendaftaran. Semua pertanyaan awal tidak dikenakan biaya."
+    entries={contacts}
+    note={coachDirectoryNote}
+  />
 
-  <!-- PROBLEM -->
-  <!-- Ref: Unbounce fitness — problem agitation -->
-  <section class="max-w-7xl mx-auto px-4 py-12 md:py-20" aria-labelledby="masalah">
-    <p class="font-mono-num text-xs font-bold uppercase tracking-[0.2em] text-emerald-800">Masalah member</p>
-    <h2 id="masalah" class="mt-2 max-w-[20ch] text-3xl md:text-4xl font-black uppercase tracking-tighter">Kenapa resolusi gym gagal?</h2>
-    <div class="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
-        <div class="rounded-3xl border border-stone-200 bg-white p-6"><p class="font-extrabold">Ragu campur saat latihan</p><p class="mt-1 text-sm text-stone-600">Sesi pria & muslimah terpisah — latihan tenang sesuai prinsip.</p></div>
-        <div class="rounded-3xl border border-stone-200 bg-white p-6"><p class="font-extrabold">Pemula takut salah gerak</p><p class="mt-1 text-sm text-stone-600">Pendampingan coach + asesmen awal sebelum program.</p></div>
-        <div class="rounded-3xl border border-stone-200 bg-white p-6"><p class="font-extrabold">Mulai-berhenti terus</p><p class="mt-1 text-sm text-stone-600">Target transformasi + suasana homey bikin konsisten.</p></div>
-    </div>
-  </section>
+  <ProgramSessions
+    heading="Empat sesi yang bisa kamu mulai"
+    lead="Dua sesi sudah pasti berjalan dan terverifikasi dari kanal resmi; dua lainnya bersifat estimasi dan perlu dikonfirmasi via admin."
+    items={programs}
+    ctaHref={waAdmin}
+    ctaLabel="Tanya jadwal sesi"
+    note="Tanda Estimasi berarti detail sesi belum kami temukan di sumber resmi — konfirmasi via admin sebelum memutuskan."
+  />
 
-  <!-- 03 PROGRAM & KELAS -->
-  <!-- Ref: MuffinGroup — kartu jadwal nama/hari/jam/level + CTA trial tiap segmen -->
-  <section class="max-w-7xl mx-auto px-4 py-12 md:py-20" aria-labelledby="program">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
-      <div class="md:col-span-8">
-        <p class="font-mono-num text-xs font-bold uppercase tracking-[0.2em] text-emerald-800">Program &amp; kelas</p>
-        <h2 id="program" class="mt-2 text-3xl md:text-4xl font-black uppercase tracking-tighter">Jadwal yang bikin konsisten</h2>
-      </div>
-      <p class="md:col-span-4 text-base text-stone-600">Label Terverifikasi = klaim IG resmi. <a class="underline underline-offset-4 font-semibold" href="/program">Semua program</a></p>
-    </div>
-    <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        <ClassCard name="Sesi Latihan Pria" day="Senin–Sabtu" time="Sesi pagi & sore*" level="Semua level" img="/images/jambi-bugar-1.jpg" alt="Area beban home gym islami Jambi Bugar Gym sesi pria" badge="Terverifikasi" cta={{ href: ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi & slot trial.`), label: 'Coba Trial' }} />
-        <ClassCard name="Sesi Latihan Muslimah" day="Senin–Sabtu" time="Sesi khusus wanita*" level="Semua level" img="/images/jambi-bugar-2.jpg" alt="Area latihan beban sesi muslimah di Jambi Bugar Gym" badge="Terverifikasi" cta={{ href: ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi & slot trial.`), label: 'Coba Trial' }} />
-        <ClassCard name="Pendampingan Coach" day="By appointment" time="Fleksibel" level="Pemula" img="/images/jambi-bugar-3.jpg" alt="Kettlebell untuk sesi pendampingan coach Jambi Bugar Gym" badge="Estimasi" cta={{ href: ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi & slot trial.`), label: 'Coba Trial' }} />
-        <ClassCard name="Asesmen Awal & Target" day="Awal program" time="45 menit" level="Pemula" img="/images/jambi-bugar-4.jpg" alt="Timbangan badan untuk asesmen awal member Jambi Bugar Gym" badge="Estimasi" cta={{ href: ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi & slot trial.`), label: 'Coba Trial' }} />
-        <ClassCard name="Latihan Kekuatan Dasar" day="Mingguan" time="60 menit" level="Pemula" img="/images/jambi-bugar-5.jpg" alt="Rak dumbel untuk latihan kekuatan dasar Jambi Bugar Gym" badge="Estimasi" cta={{ href: ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi & slot trial.`), label: 'Coba Trial' }} />
-        <ClassCard name="Konsultasi Pola Latihan" day="By DM" time="Fleksibel" level="Semua level" img="/images/jambi-bugar-3.jpg" alt="Kettlebell untuk konsultasi pola latihan Jambi Bugar Gym" badge="Estimasi" cta={{ href: ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi & slot trial.`), label: 'Coba Trial' }} />
-    </div>
-    <p class="mt-3 text-xs text-stone-400">Foto konteks — ganti foto asli lokasi.</p>
-    <p class="mt-4 text-sm text-stone-500 md:hidden" aria-hidden="true">↓ Geser / gulir untuk lihat semua jadwal</p>
-  </section>
+  <EduList
+    heading="Belajar dulu, berlatih kemudian"
+    lead="Kami percaya kebugaran dimulai dari pemahaman. Tiga hal ini yang selalu kami sampaikan ke anggota baru."
+    groups={eduGroups}
+  />
 
-  <!-- 04 PELATIH -->
-  <section class="max-w-7xl mx-auto px-4 py-12 md:py-20" aria-labelledby="pelatih">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
-      <div class="md:col-span-8">
-        <p class="font-mono-num text-xs font-bold uppercase tracking-[0.2em] text-emerald-800">Pelatih</p>
-        <h2 id="pelatih" class="mt-2 text-3xl md:text-4xl font-black uppercase tracking-tighter">Didampingi, bukan dilepas</h2>
-      </div>
-      <p class="md:col-span-4 text-base text-stone-600"><a class="underline underline-offset-4 font-semibold" href="/pelatih">Semua pelatih</a></p>
-    </div>
-    <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        <CoachCard role="Coach Sesi Pria" spec="Strength & fatloss pria" credential="Sesi terpisah" desc="Panduan latihan sesi pria. Nama coach aktual cek IG." badge="Estimasi" />
-        <CoachCard role="Coach Sesi Wanita" spec="Kebugaran muslimah" credential="Sesi terpisah" desc="Panduan latihan sesi wanita. Nama coach aktual cek IG." badge="Estimasi" />
-        <CoachCard role="Pendamping Transformasi" spec="Target & kebiasaan" credential="Asesmen awal" desc="Pola latihan + kebiasaan. Detail program via DM IG." badge="Estimasi" />
-    </div>
-  </section>
+  <ScheduleTable
+    heading="Jadwal menyesuaikan sesi, bukan sebaliknya"
+    lead="Hari dan jam tiap sesi belum kami publikasikan sebagai angka tetap supaya tidak salah datang."
+    rows={scheduleRows}
+    note="Konfirmasi tercepat lewat WhatsApp admin. Catatan resmi gym: sesi pria/wanita terpisah, jadwal menyusul via kanal resmi."
+  />
 
-  <!-- 05 HARGA -->
-  <section class="max-w-7xl mx-auto px-4 py-12 md:py-20" aria-labelledby="harga">
-    <p class="font-mono-num text-xs font-bold uppercase tracking-[0.2em] text-emerald-800">Harga</p>
-    <h2 id="harga" class="mt-2 text-3xl md:text-4xl font-black uppercase tracking-tighter">Pilih paketmu</h2>
-    <div class="mt-8 grid grid-cols-1 gap-5 md:hidden">
-      {prices.slice(0, 3).map((p, i) => (
-        <article class:list={["relative rounded-3xl border p-6", i === 0 ? "border-emerald-800 bg-stone-900 text-white" : "border-stone-200 bg-white"]}>
-          {i === 0 && <p class="absolute -top-3 left-6 rounded-full bg-emerald-800 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-white">Terpopuler</p>}
-          <p class="font-mono-num text-[11px] font-bold uppercase tracking-[0.18em]">{p.badge}</p>
-          <h3 class="mt-1 font-extrabold">{p.name}</h3>
-          <p class="mt-1 font-mono-num text-2xl font-bold">{p.price}</p>
-          <p class="mt-1 text-sm opacity-80">{p.desc}</p>
-        </article>
-      ))}
-    </div>
-    <div class="mt-8 hidden md:block">
-      <PriceCompare accent="emerald-800" note="Harga estimasi — nomor WA resmi belum tersedia, konfirmasi tarif via DM IG @jambibugar.gym." items={prices.map((p, i) => ({ ...p, featured: i === 3, href: typeof heroCta === 'string' ? heroCta : '/kontak' }))} />
-    </div>
-    <p class="mt-4 text-sm text-stone-600 md:hidden">Harga estimasi — nomor WA resmi belum tersedia, konfirmasi tarif via DM IG @jambibugar.gym. <a class="underline underline-offset-4 font-semibold" href="/harga">Semua harga</a></p>
-  </section>
+  <LocationSection
+    heading="Datang, lihat suasananya lebih dulu"
+    lead="Lokasi di Kota Jambi. Alamat dan rute paling akurat diarahkan langsung oleh admin."
+  />
 
-  <!-- 06 TRIAL -->
-  <!-- Ref: Unbounce fitness — offer + risk-reversal -->
-  <section class="max-w-7xl mx-auto px-4 py-12 md:py-20" aria-labelledby="trial">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-      <div class="md:col-span-5">
-        <p class="font-mono-num text-xs font-bold uppercase tracking-[0.2em] text-emerald-800">Trial / konsultasi</p>
-        <h2 id="trial" class="mt-2 text-3xl md:text-4xl font-black uppercase tracking-tighter">Coba dulu, cocok baru lanjut</h2>
-        <p class="mt-3 text-base text-stone-600">Isi form 30 detik — otomatis lanjut ke kontak resmi. Tanpa komitmen, tanpa spam.</p>
-        <ul class="mt-4 space-y-2 text-sm text-stone-600">
-          <li>✓ Slot trial dicek manual admin</li>
-          <li>✓ Boleh tanya harga &amp; jadwal dulu</li>
-          <li>✓ Pemula dibantu mulai dari nol</li>
-        </ul>
-      </div>
-      <div class="md:col-span-7">
-        <TrialForm action="https://ig.me/m/jambibugar.gym" gymName={business.name} kind="dm" accent="emerald-800" />
-      </div>
-    </div>
-  </section>
-
-  <!-- 07 PROOF -->
-  <!-- Ref: MuffinGroup — foto member asli + alat + instruktur aksi; Unbounce — proof -->
-  <section class="py-12 md:py-20" aria-labelledby="bukti">
-    <div class="max-w-7xl mx-auto px-4">
-      <p class="font-mono-num text-xs font-bold uppercase tracking-[0.2em] text-emerald-800">Bukti</p>
-      <h2 id="bukti" class="mt-2 text-3xl md:text-4xl font-black uppercase tracking-tighter">Kata mereka yang latihan</h2>
-      <div class="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
-        <figure class="rounded-3xl border border-stone-200 bg-white p-6"><div class="font-mono-num text-xs text-stone-400">Estimasi — ilustratif</div><blockquote class="mt-2 text-sm leading-relaxed text-stone-700">“Latihan tenang karena sesinya terpisah. Coach-nya sabar banget sama pemula.”</blockquote><figcaption class="mt-3 text-sm font-bold">Hamba Allah <span class="font-normal text-stone-500">— Member sesi muslimah</span></figcaption></figure>
-        <figure class="rounded-3xl border border-stone-200 bg-white p-6"><div class="font-mono-num text-xs text-stone-400">Estimasi — ilustratif</div><blockquote class="mt-2 text-sm leading-relaxed text-stone-700">“Tempatnya homey, alat cukup buat latihan rutin. Jadwal sesi jelas via DM.”</blockquote><figcaption class="mt-3 text-sm font-bold">Abdullah <span class="font-normal text-stone-500">— Member sesi pria</span></figcaption></figure>
-        <figure class="rounded-3xl border border-stone-200 bg-white p-6"><div class="font-mono-num text-xs text-stone-400">Estimasi — ilustratif</div><blockquote class="mt-2 text-sm leading-relaxed text-stone-700">“Suka ada target & asesmen awal, jadi progres kerasa bukan asal latihan.”</blockquote><figcaption class="mt-3 text-sm font-bold">Ummu F. <span class="font-normal text-stone-500">— Member transformasi</span></figcaption></figure>
-      </div>
-    </div>
-    <div class="mt-8">
-      <p class="max-w-7xl mx-auto px-4 font-mono-num text-xs uppercase tracking-[0.18em] text-stone-500">Galeri fasilitas — geser →</p>
-      <div class="snap-rail no-scrollbar mt-4 flex gap-4 overflow-x-auto px-4 md:px-[max(1rem,calc((100vw-80rem)/2+1rem))] pb-2">
-          <figure class="snap-item shrink-0 w-[80vw] sm:w-[360px] overflow-hidden rounded-3xl border border-stone-200 bg-white"><img src="/images/jambi-bugar-1.jpg" alt="Area beban home gym islami Jambi Bugar Gym sesi pria" width="800" height="600" loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover" /><figcaption class="px-4 py-3 text-xs text-stone-500">Foto konteks — ganti foto asli lokasi.</figcaption></figure>
-          <figure class="snap-item shrink-0 w-[80vw] sm:w-[360px] overflow-hidden rounded-3xl border border-stone-200 bg-white"><img src="/images/jambi-bugar-2.jpg" alt="Area latihan beban sesi muslimah di Jambi Bugar Gym" width="800" height="600" loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover" /><figcaption class="px-4 py-3 text-xs text-stone-500">Foto konteks — ganti foto asli lokasi.</figcaption></figure>
-          <figure class="snap-item shrink-0 w-[80vw] sm:w-[360px] overflow-hidden rounded-3xl border border-stone-200 bg-white"><img src="/images/jambi-bugar-3.jpg" alt="Kettlebell untuk sesi pendampingan coach Jambi Bugar Gym" width="800" height="600" loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover" /><figcaption class="px-4 py-3 text-xs text-stone-500">Foto konteks — ganti foto asli lokasi.</figcaption></figure>
-          <figure class="snap-item shrink-0 w-[80vw] sm:w-[360px] overflow-hidden rounded-3xl border border-stone-200 bg-white"><img src="/images/jambi-bugar-4.jpg" alt="Timbangan badan untuk asesmen awal member Jambi Bugar Gym" width="800" height="600" loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover" /><figcaption class="px-4 py-3 text-xs text-stone-500">Foto konteks — ganti foto asli lokasi.</figcaption></figure>
-      </div>
-    </div>
-    <div class="max-w-7xl mx-auto px-4 mt-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-      <div class="md:col-span-4">
-        <h3 class="font-extrabold text-lg">Lokasi &amp; jam</h3>
-        <p class="mt-2 text-sm text-stone-600">{business.address}.<br />{business.hours}.</p>
-        <a href="/kontak" class="mt-4 inline-flex min-h-[48px] items-center rounded-full border border-stone-300 px-6 text-sm font-bold uppercase tracking-wide">Rute &amp; kontak</a>
-      </div>
-      <div class="md:col-span-8">
-        <MapFacade src={business.mapsEmbed} title="Peta Jambi Bugar Jambi" mapsUrl={business.mapsUrl} />
-      </div>
-    </div>
-  </section>
-
-  <!-- 08 FAQ + FINAL CTA -->
-  <section class="max-w-7xl mx-auto px-4 py-12 md:py-20" aria-labelledby="faq">
-    <p class="font-mono-num text-xs font-bold uppercase tracking-[0.2em] text-emerald-800">FAQ</p>
-    <h2 id="faq" class="mt-2 text-3xl md:text-4xl font-black uppercase tracking-tighter">Masih ragu? Wajar.</h2>
-    <div class="mt-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-      <div class="md:col-span-7"><Faq items={faqs} /></div>
-      <div class={`md:col-span-5 rounded-3xl bg-stone-900 p-8 text-white`}>
-        <p class="font-mono-num text-xs uppercase tracking-[0.18em] text-white/60">Final CTA — tanpa risiko</p>
-        <p class="mt-2 text-2xl font-black uppercase tracking-tight">Slot trial minggu ini terbatas</p>
-        <p class="mt-2 text-sm text-white/70">Amankan slotmu sekarang — gratis tanya, tanpa komitmen.</p>
-        <a href={heroCta} class="mt-6 inline-flex min-h-[48px] items-center rounded-full bg-white px-8 text-sm font-black uppercase tracking-wide text-stone-900 transition hover:opacity-90 active:scale-[0.98]">Tanya via DM IG</a>
-      </div>
-    </div>
-  </section>
+  <CtaBand
+    heading="Mulai dari satu pertanyaan"
+    body="Ceritakan kondisimu saat ini dan target yang masuk akal. Admin akan mengarahkan ke sesi yang paling sesuai."
+    waHref={waAdmin}
+    igUrl={business.instagram}
+  />
 </BaseLayout>

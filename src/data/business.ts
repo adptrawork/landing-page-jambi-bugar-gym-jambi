@@ -12,9 +12,9 @@ export const business = {
   mapsEmbed: 'https://maps.google.com/maps?q=Jambi%20Bugar%20Gym%20Jambi&t=&z=15&ie=UTF8&iwloc=&output=embed',
   address: 'Kota Jambi — alamat & jam sesi konfirmasi via DM IG',
   hours: 'Sesi terpisah Pria/Wanita — jadwal via DM IG',
-  title: 'Jambi Bugar Gym Jambi — Home Gym Islami, Sesi Pria & Muslimah Terpisah',
+  title: 'Jambi Bugar Gym — Home Gym Islami Sesi Pria & Muslimah',
   description:
-    'Rumah transformasi islami di Jambi: latihan kekuatan sesi pria dan muslimah terpisah, pendampingan coach, suasana tenang. Jadwal & daftar via DM IG @jambibugar.gym.',
+    'Rumah transformasi islami di Kota Jambi: latihan kekuatan dengan sesi pria dan muslimah terpisah, didampingi coach, suasana tenang. Jadwal & pendaftaran via WhatsApp admin.',
   canonicalPath: '/',
   ogImage: '/images/jambi-bugar-1.jpg',
 };
@@ -22,6 +22,42 @@ export const business = {
 export const ctaLink = (message: string) =>
   `https://ig.me/m/jambibugar.gym?text=${encodeURIComponent(message)}`;
 export const ctaLabel = 'Tanya via DM IG';
+
+/** Normalisasi nomor Indonesia (08xx) menjadi format internasional wa.me (628xx). */
+export const waLink = (phone: string, message: string) =>
+  `https://wa.me/${phone.replace(/\D/g, '').replace(/^0/, '62')}?text=${encodeURIComponent(message)}`;
+
+/**
+ * Profil pelatih utama — Coach Noe (Muhammad Nor).
+ * Sumber kontak: publikasi Berita Jambi (2 Agu 2026 / 1 Sep 2026) untuk JBG Coach Academy.
+ * Tanpa foto wajah: visual non-wajah + monogram inisial.
+ */
+export const coachNoe = {
+  name: 'Coach Noe',
+  fullName: 'Muhammad Nor',
+  monogram: 'MN',
+  role: 'Penggagas & pelatih berlisensi nasional',
+  focus: 'Edukasi kebugaran & penyiapan SDM kebugaran Jambi',
+  note: 'Menggagas JBG Coach Academy pada Agustus 2026 untuk menyiapkan pelatih kebugaran berkualitas di Jambi, dengan penekanan pada pemahaman latihan — bukan sekadar mengikuti gerakan.',
+  phone: '0812-4597-0801',
+  img: '/images/jambi-bugar-3.jpg',
+  alt: 'Kettlebell di area latihan Jambi Bugar Gym, visual non-wajah untuk profil coach',
+};
+
+/** Kontak admin untuk jadwal, pendaftaran, dan informasi tarif. */
+export const adminContact = {
+  name: 'Coach Iir',
+  monogram: 'CI',
+  role: 'Admin — jadwal, pendaftaran & informasi tarif',
+  phone: '0853-7952-9017',
+};
+
+/**
+ * Catatan direktori: selain Coach Noe, profil pelatih lain belum terverifikasi dari
+ * sumber resmi. Tidak ada biodata/sertifikasi karangan — daftar lengkap via admin.
+ */
+export const coachDirectoryNote =
+  'Baru Coach Noe yang terverifikasi dari sumber publik. Profil pelatih lain belum kami tampilkan karena belum ada data resmi — daftar lengkap dikonfirmasi via admin.';
 
 export const programs = [
   {

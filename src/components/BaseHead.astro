@@ -1,44 +1,53 @@
 ---
+interface Crumb { name: string; url: string; }
 interface Props {
   title: string;
   description: string;
   canonicalUrl: string;
   image?: string;
+  breadcrumbs?: Crumb[];
 }
-const { title, description, canonicalUrl, image = '/images/jambi-bugar-1.jpg' } = Astro.props;
+const { title, description, canonicalUrl, image = '/images/jambi-bugar-1.jpg', breadcrumbs = [] } = Astro.props;
 const ogImage = new URL(image, Astro.site ?? Astro.url).toString();
-const faq = {
+const site = (Astro.site?.toString() ?? 'https://jambibugar-jambi.pages.dev').replace(/\/$/, '');
+
+const localBusiness = {
   "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Apakah sesi latihan pria dan wanita benar-benar terpisah di Jambi Bugar Gym?",
-      acceptedAnswer: { "@type": "Answer", text: "Ya. Sesuai bio Instagram resmi @jambibugar.gym, jadwal latihan dibagi sesi pria dan sesi wanita agar suasana tetap nyaman, aman, dan syari. Jam tiap sesi dikonfirmasi via DM Instagram." }
-    },
-    {
-      "@type": "Question",
-      name: "Bagaimana cara mendaftar dan bertanya jadwal di Jambi Bugar Gym?",
-      acceptedAnswer: { "@type": "Answer", text: "Pendaftaran dan tanya jadwal dilakukan via DM Instagram @jambibugar.gym. Nomor WhatsApp resmi belum terverifikasi, jadi waspadai nomor dari sumber lain." }
-    },
-    {
-      "@type": "Question",
-      name: "Apakah Jambi Bugar Gym cocok untuk pemula dan lansia?",
-      acceptedAnswer: { "@type": "Answer", text: "Cocok. Sebagai home gym dengan suasana tenang dan pendampingan coach, pemula hingga senior bisa mulai dari asesmen awal dan latihan kekuatan dasar yang aman." }
-    }
+  "@type": ["LocalBusiness", "ExerciseGym"],
+  name: "Jambi Bugar Gym",
+  url: site,
+  image: ogImage,
+  description,
+  exerciseType: ["Strength", "Senior"],
+  audience: { "@type": "PeopleAudience", suggestedMinAge: 15 },
+  address: { "@type": "PostalAddress", addressLocality: "Kota Jambi", addressRegion: "Jambi", addressCountry: "ID" },
+  areaServed: { "@type": "City", name: "Kota Jambi" },
+  sameAs: ["https://www.instagram.com/jambibugar.gym"],
+  contactPoint: [
+    { "@type": "ContactPoint", name: "Coach Noe", telephone: "+6281245970801", contactType: "customer service", areaServed: "ID" },
+    { "@type": "ContactPoint", name: "Admin (Coach Iir)", telephone: "+6285379529017", contactType: "reservations", areaServed: "ID" }
   ]
+};
+
+const crumbItems = (breadcrumbs.length ? breadcrumbs : [{ name: 'Beranda', url: '/' }]);
+const breadcrumbList = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: crumbItems.map((c, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: c.name,
+    item: `${site}${c.url}`
+  }))
 };
 ---
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700&display=swap" media="print" onload="this.media='all'" />
-<noscript><link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700&display=swap" /></noscript>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap" media="print" onload="this.media='all'" />
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap" /></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;600;700&display=swap" /></noscript>
 <meta name="generator" content={Astro.generator} />
 <link rel="canonical" href={canonicalUrl} />
 <title>{title}</title>
@@ -52,22 +61,11 @@ const faq = {
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImage} />
-<meta property="og:image:alt" content="Area latihan home gym islami Jambi Bugar Gym sesi pria" />
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={canonicalUrl} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={ogImage} />
-<script type="application/ld+json" set:html={JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "ExerciseGym",
-  name: "Jambi Bugar Gym",
-  url: "https://jambibugar-jambi.pages.dev",
-  image: ogImage,
-  description: description,
-  exerciseType: ["Strength", "Senior"],
-  audience: { "@type": "PeopleAudience", suggestedMinAge: 15 },
-  address: { "@type": "PostalAddress", addressLocality: "Kota Jambi", addressRegion: "Jambi", addressCountry: "ID" },
-  sameAs: ["https://www.instagram.com/jambibugar.gym"]
-})} />
-<script type="application/ld+json" set:html={JSON.stringify(faq)} />
+<meta property="og:image:alt" content="Rak dumbel di area beban Jambi Bugar Gym" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalUrl} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+<script type="application/ld+json" set:html={JSON.stringify(localBusiness)} />
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbList)} />

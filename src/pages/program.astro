@@ -1,40 +1,100 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { business, programs, ctaLink } from '../data/business';
-const heroCta = ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi.`);
----
-<!-- Ref: Unbounce fitness — head (hook) + content + CTA -->
-<BaseLayout title="Semua program & jadwal — Jambi Bugar Gym Jambi" description="Rumah Transformasi — Nyaman | Aman | Syari" canonicalPath="/Program" image={business.ogImage}>
-  <section class="bg-stone-900 text-white" aria-labelledby="subhead">
-    <div class="max-w-7xl mx-auto px-4 pt-14 pb-12 md:pt-20 md:pb-16">
-      <nav class="font-mono-num text-xs uppercase tracking-[0.18em] text-white/60" aria-label="Breadcrumb"><a href="/" class="hover:text-white">Beranda</a> / Program & kelas</nav>
-      <h1 id="subhead" class="mt-3 max-w-[20ch] text-3xl md:text-5xl font-black uppercase tracking-tighter">Semua program & jadwal</h1>
-      <p class="mt-3 max-w-[60ch] text-base text-white/75">Jadwal lengkap semua program latihan — pilih yang cocok dengan level & waktumu.</p>
-      <a href={heroCta} class="mt-6 inline-flex min-h-[48px] items-center rounded-full bg-emerald-800 px-7 text-sm font-black uppercase tracking-wide text-white transition hover:opacity-90">Tanya via DM IG</a>
-    </div>
-  </section>
+import PageHero from '../components/PageHero.astro';
+import ProgramSessions from '../components/ProgramSessions.astro';
+import EduList from '../components/EduList.astro';
+import ScheduleTable from '../components/ScheduleTable.astro';
+import LocationSection from '../components/LocationSection.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { business, programs, adminContact, waLink } from '../data/business';
 
-  <section class="max-w-7xl mx-auto px-4 py-12 md:py-20" aria-label="Daftar program">
-    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {programs.map((p) => (
-        <article class="flex flex-col overflow-hidden rounded-3xl border border-stone-200 bg-white">
-          <img src={p.img} alt={p.alt} width="800" height="600" loading="lazy" decoding="async" class="aspect-[16/10] w-full object-cover" />
-          <div class="flex flex-1 flex-col p-6">
-            <p class="font-mono-num text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-800">{p.badge}</p>
-            <h2 class="mt-2 text-lg font-extrabold tracking-tight">{p.name}</h2>
-            <p class="mt-2 text-sm leading-relaxed text-stone-600">{p.desc}</p>
-            <a href={heroCta} class="mt-4 inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-800 px-5 text-sm font-bold uppercase tracking-wide text-emerald-800 transition hover:bg-emerald-800 hover:text-white">Coba Trial</a>
-          </div>
-        </article>
-      ))}
-    </div>
-    <p class="mt-3 text-xs text-stone-400">Foto konteks — ganti foto asli lokasi.</p>
-  </section>
-  <section class="max-w-7xl mx-auto px-4 pb-12 md:pb-20" aria-label="Ajakan">
-    <div class="rounded-3xl bg-stone-900 p-8 text-white md:p-10">
-      <p class="text-2xl font-black uppercase tracking-tight">Masih bingung pilih program?</p>
-      <p class="mt-2 text-sm text-white/70">Tanya gratis — admin bantu pilihkan sesuai level & tujuanmu.</p>
-      <a href={heroCta} class="mt-5 inline-flex min-h-[48px] items-center rounded-full bg-white px-8 text-sm font-black uppercase tracking-wide text-stone-900">Tanya via DM IG</a>
-    </div>
-  </section>
+const waAdmin = waLink(adminContact.phone, `Halo admin ${business.name}, saya mau tanya program & jadwal sesi.`);
+
+const crumbTrail = [
+  { name: 'Beranda', url: '/' },
+  { name: 'Program', url: '/program' },
+];
+
+const facts = [
+  { k: 'Sesi', v: 'Pria & muslimah terpisah' },
+  { k: 'Level', v: 'Pemula hingga lanjutan, sesuai asesmen' },
+  { k: 'Pendampingan', v: 'Coach di sesi perdana' },
+  { k: 'Info', v: 'Jadwal tiap sesi via admin' },
+];
+
+const eduGroups = [
+  { title: 'Urutan yang disarankan', items: [
+    'Asesmen awal — catat kondisi, riwayat cedera, dan target.',
+    'Latihan kekuatan dasar untuk membiasakan pola gerak.',
+    'Pendampingan coach saat menaikkan beban atau volume.',
+    'Evaluasi berkala dan penyesuaian program.',
+  ] },
+  { title: 'Yang perlu dibawa & disiapkan', items: [
+    'Pakaian latihan yang nyaman dan menutup dengan baik.',
+    'Air minum dan handuk pribadi.',
+    'Informasi kondisi kesehatan bila sedang dalam pemulihan.',
+  ] },
+];
+
+const scheduleRows = [
+  { name: 'Sesi latihan pria', audience: 'Pria', schedule: 'Hari & jam dikonfirmasi via admin' },
+  { name: 'Sesi latihan muslimah', audience: 'Wanita', schedule: 'Hari & jam dikonfirmasi via admin' },
+  { name: 'Asesmen awal & target', audience: 'Semua level', schedule: 'Dijadwalkan bersama admin' },
+];
+---
+<BaseLayout
+  title="Program & sesi Jambi Bugar Gym — pria & muslimah"
+  description="Program latihan Jambi Bugar Gym: sesi pria dan sesi muslimah terpisah, pendampingan coach, dan asesmen awal. Lihat urutan latihan yang disarankan serta cara mendaftar via admin."
+  canonicalPath="/program"
+  image="/images/jambi-bugar-2.jpg"
+  breadcrumbs={crumbTrail}
+>
+  <PageHero
+    eyebrow="Program & sesi"
+    title="Program yang bertahap, sesuai kemampuanmu"
+    lead="Tidak ada satu program untuk semua orang. Kami mulai dari asesmen, lalu menyusun langkah latihan yang realistis untuk kondisi dan tujuanmu."
+    image="/images/jambi-bugar-2.jpg"
+    imageAlt="Ruang latihan berisi bola medicine dan dumbel, tanpa orang"
+    imageCaption="Ruang latihan kekuatan — visual non-wajah"
+    crumbs={crumbTrail}
+    ctas={[
+      { href: waAdmin, label: 'Tanya program', icon: 'whatsapp' },
+      { href: '/harga', label: 'Lihat harga', variant: 'ghost' },
+    ]}
+    facts={facts}
+  />
+
+  <ProgramSessions
+    heading="Sesi yang tersedia"
+    lead="Dua sesi inti sudah terverifikasi dari kanal resmi gym; dua sesi pendukung masih estimasi dan menunggu konfirmasi admin."
+    items={programs}
+    ctaHref={waAdmin}
+    ctaLabel="Tanya jadwal"
+    note="Foto bersifat konteks visual (non-wajah), bukan dokumentasi sesi tertentu."
+  />
+
+  <EduList
+    heading="Urutan latihan & persiapan"
+    lead="Alur sederhana yang kami sarankan agar latihan aman dan kebiasaan terbentuk lebih cepat."
+    groups={eduGroups}
+  />
+
+  <ScheduleTable
+    heading="Kapan sesi berjalan?"
+    lead="Jadwal mengikuti pemisahan sesi pria dan muslimah."
+    rows={scheduleRows}
+    note="Jam pasti belum dipublikasikan sebagai angka tetap — hubungi admin agar tidak salah datang."
+  />
+
+  <LocationSection
+    heading="Lokasi latihan"
+    lead="Kota Jambi. Admin mengarahkan rute paling akurat sebelum kamu datang."
+  />
+
+  <CtaBand
+    heading="Belum yakin mulai dari mana?"
+    body="Admin bisa membantu memilih sesi dan program yang paling sesuai dengan kondisimu saat ini."
+    waHref={waAdmin}
+    igUrl={business.instagram}
+  />
 </BaseLayout>

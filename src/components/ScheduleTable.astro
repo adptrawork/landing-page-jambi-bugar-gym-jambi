@@ -1,0 +1,46 @@
+---
+import Icon from './Icon.astro';
+interface Row { name: string; audience: string; schedule: string; }
+interface Props { eyebrow?: string; heading: string; lead?: string; rows: Row[]; note?: string; headingId?: string; }
+const { eyebrow = 'Jadwal & jam', heading, lead, rows, note, headingId = 'jadwal' } = Astro.props;
+---
+<!-- Ref: calm editorial coach directory — jadwal sebagai tabel ber-rule, menjadi kartu di mobile -->
+<section class="border-b border-ink/15" aria-labelledby={headingId}>
+  <div class="shell py-14 md:py-20">
+    <div class="grid gap-4 md:grid-cols-12 md:items-end">
+      <div class="md:col-span-7">
+        <p class="eyebrow reveal text-accent" style="--i:0">{eyebrow}</p>
+        <h2 id={headingId} class="reveal mt-3 max-w-[24ch] font-display text-3xl md:text-4xl" style="--i:0">{heading}</h2>
+      </div>
+      {lead && <p class="reveal max-w-prose text-sm leading-relaxed text-ink/70 md:col-span-5" style="--i:1">{lead}</p>}
+    </div>
+
+    <table class="sched reveal mt-10" style="--i:1">
+      <caption class="sr-only">Jadwal sesi dan jam layanan Jambi Bugar Gym</caption>
+      <thead>
+        <tr>
+          <th scope="col">Sesi / layanan</th>
+          <th scope="col">Untuk</th>
+          <th scope="col">Waktu</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr>
+            <th scope="row" class="text-ink">{r.name}</th>
+            <td data-label="Untuk" class="text-ink/75">{r.audience}</td>
+            <td data-label="Waktu">
+              <span class="inline-flex items-center gap-2 text-ink/75"><Icon name="clock" size={16} />{r.schedule}</span>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    {note && (
+      <p class="mt-5 flex max-w-prose items-start gap-3 text-sm leading-relaxed text-ink/70">
+        <span class="mt-0.5 shrink-0 text-accent" aria-hidden="true"><Icon name="info" size={18} /></span>{note}
+      </p>
+    )}
+  </div>
+</section>

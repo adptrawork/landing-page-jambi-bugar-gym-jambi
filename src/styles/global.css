@@ -1,64 +1,185 @@
-/* Fonts dimuat via <link> di BaseHead (preconnect + media=print onload) — tanpa @import render-blocking. */
+/* ==========================================================================
+   Jambi Bugar Gym — calm coach directory
+   Font: Libre Baskerville (display serif) + Manrope (body/UI)
+   Dimuat via <link> non-blocking di BaseHead (preconnect + media=print onload).
+   ========================================================================== */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root { --ease-snap: cubic-bezier(0.16, 1, 0.3, 1); }
+:root {
+  /* Palet */
+  --paper: #F2EFE4;
+  --paper-2: #C0C7A4;
+  --ink: #1D3029;
+  --ink-soft: rgba(29, 48, 41, .62);
+  --forest: #244B3E;
+  --accent: #925139;
 
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
+  /* Turunan */
+  --rule: rgba(29, 48, 41, .16);
+  --rule-strong: rgba(29, 48, 41, .32);
+  --rule-dark: rgba(242, 239, 228, .22);
+  --focus: #925139;
+  --ease-calm: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
-.font-mono-num { font-family: 'JetBrains Mono', 'Geist Mono', ui-monospace, monospace; }
 
-/* Entrance */
-.rise { opacity: 0; animation: rise-in 0.7s var(--ease-snap) forwards; }
-.d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.12s; } .d3 { animation-delay: 0.19s; }
-.d4 { animation-delay: 0.26s; } .d5 { animation-delay: 0.33s; } .d6 { animation-delay: 0.4s; }
-@keyframes rise-in {
-  from { opacity: 0; transform: translateY(24px) scale(0.99); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+@layer base {
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Libre Baskerville', Georgia, ui-serif, serif;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  /* Panel gelap: ring fokus harus tetap kontras di atas forest. */
+  .on-dark { --focus: var(--paper); --rule: var(--rule-dark); --rule-strong: var(--rule-dark); }
+
+  a, button, input, select, textarea, summary, label { -webkit-tap-highlight-color: transparent; }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
 }
 
-/* Marquee: overflow-hidden wajib */
-.marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-.marquee-track { display: flex; width: max-content; animation: slide-x 24s linear infinite; }
-.marquee:hover .marquee-track { animation-play-state: paused; }
-@keyframes slide-x { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@layer components {
+  /* Label mikro bergaya editorial */
+  .eyebrow {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
 
-/* Snap rail + scroll-padding + hint */
-.snap-rail { scroll-snap-type: x mandatory; scroll-padding-inline: 1rem; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
-.snap-rail > * { scroll-snap-align: start; }
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { scrollbar-width: none; }
+  /* Pembungkus konten */
+  .shell { width: 100%; max-width: 74rem; margin-inline: auto; padding-inline: 1.25rem; }
+  @media (min-width: 768px) { .shell { padding-inline: 2rem; } }
 
-/* Skeleton shimmer untuk blok harga */
-.skeleton { position: relative; overflow: hidden; }
-.skeleton::after {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(100deg, transparent 20%, rgba(255,255,255,0.55) 50%, transparent 80%);
-  animation: shimmer 1.6s linear infinite;
+  /* Daftar ber-rule (menggantikan pola kartu) */
+  .ruled { border-top: 1px solid var(--rule); }
+  .ruled-item { border-bottom: 1px solid var(--rule); }
+
+  /* Link teks dengan garis bawah tipis accent */
+  .tlink {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.28em;
+    transition: color .25s var(--ease-calm), text-decoration-color .25s var(--ease-calm);
+  }
+  .tlink:hover { color: var(--ink); }
+
+  /* Tombol */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding-inline: 1.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    transition: background-color .25s var(--ease-calm), color .25s var(--ease-calm),
+      border-color .25s var(--ease-calm), transform .18s var(--ease-calm);
+  }
+  .btn:active { transform: scale(0.98); }
+
+  .btn-primary { background-color: var(--forest); color: var(--paper); }
+  .btn-primary:hover { background-color: #1b3a30; }
+
+  .btn-ghost { border: 1px solid var(--rule-strong); color: inherit; }
+  .btn-ghost:hover { border-color: var(--ink); background-color: rgba(29, 48, 41, .05); }
+  .on-dark .btn-ghost:hover { background-color: rgba(242, 239, 228, .10); border-color: var(--paper); }
+
+  .btn-accent { background-color: var(--accent); color: #FFF7F1; }
+  .btn-accent:hover { background-color: #7c4330; }
 }
-@keyframes shimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
 
-/* Hamburger CSS-only (checkbox peer) */
+/* --------------------------------------------------------------------------
+   Animasi tenang (hanya transform + opacity, stagger lewat --i)
+   -------------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  animation: reveal-in .72s var(--ease-calm) forwards;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+@keyframes reveal-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { animation: none; opacity: 1; transform: none; }
+  html { scroll-behavior: auto; }
+  * { transition-duration: 0.01ms !important; }
+}
+
+/* --------------------------------------------------------------------------
+   Tabel jadwal ber-rule → kartu di mobile
+   -------------------------------------------------------------------------- */
+.sched { width: 100%; border-collapse: collapse; }
+.sched caption { text-align: left; }
+.sched th, .sched td { text-align: left; padding: 0.95rem 1rem; vertical-align: top; border-bottom: 1px solid var(--rule); }
+.sched thead th { font-family: 'Manrope', sans-serif; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); }
+.sched tbody th { font-weight: 600; }
+
+@media (max-width: 640px) {
+  .sched thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .sched, .sched tbody, .sched tr, .sched th, .sched td { display: block; width: auto; }
+  .sched tr { border: 1px solid var(--rule); padding: 0.5rem 0.75rem 0.75rem; margin-bottom: 0.75rem; }
+  .sched th, .sched td { border: 0; padding: 0.45rem 0.25rem; }
+  .sched tbody th { font-family: 'Libre Baskerville', Georgia, serif; font-size: 1.0625rem; padding-top: 0.6rem; }
+  .sched td::before {
+    content: attr(data-label);
+    display: block;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 0.15rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Navigasi mobile (checkbox peer, tanpa JS)
+   -------------------------------------------------------------------------- */
 .nav-toggle { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-.burger span { display: block; width: 22px; height: 2px; background: currentColor; border-radius: 2px; transition: transform 0.3s var(--ease-snap), opacity 0.2s; }
+.burger span { display: block; width: 22px; height: 2px; background: currentColor; border-radius: 2px; transition: transform .3s var(--ease-calm), opacity .2s var(--ease-calm); }
 .burger span + span { margin-top: 5px; }
 .nav-toggle:checked + nav .burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav-toggle:checked + nav .burger span:nth-child(2) { opacity: 0; }
 .nav-toggle:checked + nav .burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 .mobile-menu { display: none; }
 .nav-toggle:checked + nav .mobile-menu { display: block; }
-.nav-toggle:focus-visible + nav .burger { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 6px; }
+.nav-toggle:focus-visible + nav label.burger { outline: 2px solid var(--focus); outline-offset: 3px; }
 
-a, button { -webkit-tap-highlight-color: transparent; }
-:focus-visible { outline: 2px solid #0f766e; outline-offset: 3px; border-radius: 6px; }
-
-@media (prefers-reduced-motion: reduce) {
-  .rise { animation: none; opacity: 1; }
-  .marquee-track, .skeleton::after { animation: none; }
-  html { scroll-behavior: auto; }
+/* Skip link */
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  z-index: 60;
+  transform: translateY(-200%);
+  transition: transform .2s var(--ease-calm);
 }
+.skip-link:focus { transform: translateY(0); }

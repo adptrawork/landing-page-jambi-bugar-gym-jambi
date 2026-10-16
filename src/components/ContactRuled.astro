@@ -1,0 +1,46 @@
+---
+import Icon from './Icon.astro';
+interface Entry { name: string; role: string; phone: string; wa: string; tag?: string; }
+interface Props { heading: string; eyebrow?: string; lead?: string; entries: Entry[]; note?: string; headingId?: string; }
+const { heading, eyebrow = 'Kontak pelatih & admin', lead, entries, note, headingId = 'kontak-pelatih' } = Astro.props;
+---
+<!-- Ref: calm editorial coach directory — kontak sebagai daftar ber-rule, bukan 3 kartu sama besar -->
+<section class="border-b border-ink/15" aria-labelledby={headingId}>
+  <div class="shell py-14 md:py-20">
+    <div class="grid gap-4 md:grid-cols-12 md:items-end">
+      <div class="md:col-span-7">
+        <p class="eyebrow reveal text-accent" style="--i:0">{eyebrow}</p>
+        <h2 id={headingId} class="reveal mt-3 max-w-[22ch] font-display text-3xl md:text-4xl" style="--i:0">{heading}</h2>
+      </div>
+      {lead && <p class="reveal max-w-prose text-sm leading-relaxed text-ink/70 md:col-span-5" style="--i:1">{lead}</p>}
+    </div>
+
+    <ul class="ruled mt-10">
+      {entries.map((e, i) => (
+        <li class="ruled-item reveal" style={`--i:${i + 1}`}>
+          <div class="grid items-center gap-x-6 gap-y-2 py-5 md:grid-cols-12">
+            <div class="flex items-center gap-4 md:col-span-4">
+              <span class="grid h-11 w-11 shrink-0 place-items-center rounded-[2px] border border-ink/20 font-display text-sm font-bold" aria-hidden="true">{e.name.split(' ').map((w) => w[0]).join('').slice(0, 2)}</span>
+              <div>
+                <p class="font-display text-lg">{e.name}</p>
+                {e.tag && <p class="eyebrow text-accent">{e.tag}</p>}
+              </div>
+            </div>
+            <p class="text-sm text-ink/75 md:col-span-5">{e.role}</p>
+            <div class="md:col-span-3 md:text-right">
+              <a href={e.wa} class="btn btn-ghost w-full md:w-auto">
+                <Icon name="whatsapp" size={16} />{e.phone}
+              </a>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    {note && (
+      <p class="mt-6 flex max-w-prose items-start gap-3 text-sm leading-relaxed text-ink/70">
+        <span class="mt-0.5 shrink-0 text-accent" aria-hidden="true"><Icon name="info" size={18} /></span>{note}
+      </p>
+    )}
+  </div>
+</section>
