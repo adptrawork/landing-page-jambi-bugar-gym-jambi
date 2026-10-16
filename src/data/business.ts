@@ -16,7 +16,7 @@ export const business = {
   description:
     'Rumah transformasi islami di Kota Jambi: latihan kekuatan dengan sesi pria dan muslimah terpisah, didampingi coach, suasana tenang. Jadwal & pendaftaran via WhatsApp admin.',
   canonicalPath: '/',
-  ogImage: '/images/jambi-bugar-1.jpg',
+  ogImage: '/images/jambi-bugar-1.webp',
 };
 
 export const ctaLink = (message: string) =>
@@ -40,7 +40,7 @@ export const coachNoe = {
   focus: 'Edukasi kebugaran & penyiapan SDM kebugaran Jambi',
   note: 'Menggagas JBG Coach Academy pada Agustus 2026 untuk menyiapkan pelatih kebugaran berkualitas di Jambi, dengan penekanan pada pemahaman latihan — bukan sekadar mengikuti gerakan.',
   phone: '0812-4597-0801',
-  img: '/images/jambi-bugar-3.jpg',
+  img: '/images/jambi-bugar-3.webp',
   alt: 'Kettlebell di area latihan Jambi Bugar Gym, visual non-wajah untuk profil coach',
 };
 
@@ -64,28 +64,28 @@ export const programs = [
     name: 'Sesi Latihan Pria',
     badge: 'Terverifikasi',
     desc: 'Jadwal latihan terpisah pria — sesuai bio IG resmi. Jam sesi cek DM/postingan.',
-    img: '/images/jambi-bugar-1.jpg',
+    img: '/images/jambi-bugar-1.webp',
     alt: 'Area beban home gym islami Jambi Bugar Gym sesi pria',
   },
   {
     name: 'Sesi Latihan Wanita',
     badge: 'Terverifikasi',
     desc: 'Jadwal latihan terpisah wanita — nyaman, aman, syari. Jam sesi cek DM/postingan.',
-    img: '/images/jambi-bugar-2.jpg',
+    img: '/images/jambi-bugar-2.webp',
     alt: 'Area latihan beban sesi muslimah di Jambi Bugar Gym',
   },
   {
     name: 'Pendampingan Coach',
     badge: 'Estimasi',
     desc: 'Dibantu teknik dasar yang benar. Ketersediaan coach konfirmasi via DM IG.',
-    img: '/images/jambi-bugar-3.jpg',
+    img: '/images/jambi-bugar-3.webp',
     alt: 'Kettlebell untuk sesi pendampingan coach Jambi Bugar Gym',
   },
   {
     name: 'Asesmen Awal & Target',
     badge: 'Estimasi',
     desc: 'Ukur kondisi awal sebelum program transformasi. Detail via DM IG.',
-    img: '/images/jambi-bugar-4.jpg',
+    img: '/images/jambi-bugar-4.webp',
     alt: 'Timbangan badan untuk asesmen awal member Jambi Bugar Gym',
   },
 ];

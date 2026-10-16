@@ -7,7 +7,7 @@ interface Props {
   image?: string;
   breadcrumbs?: Crumb[];
 }
-const { title, description, canonicalUrl, image = '/images/jambi-bugar-1.jpg', breadcrumbs = [] } = Astro.props;
+const { title, description, canonicalUrl, image = '/images/jambi-bugar-1.webp', breadcrumbs = [] } = Astro.props;
 const ogImage = new URL(image, Astro.site ?? Astro.url).toString();
 const site = (Astro.site?.toString() ?? 'https://jambibugar-jambi.pages.dev').replace(/\/$/, '');
 
