@@ -5,7 +5,7 @@ interface Props {
   canonicalUrl: string;
   image?: string;
 }
-const { title, description, canonicalUrl, image = '/default-og.jpg' } = Astro.props;
+const { title, description, canonicalUrl, image = '/images/jambi-bugar-1.jpg' } = Astro.props;
 const ogImage = new URL(image, Astro.site ?? Astro.url).toString();
 ---
 <meta charset="utf-8" />
@@ -31,11 +31,9 @@ const ogImage = new URL(image, Astro.site ?? Astro.url).toString();
   "@context": "https://schema.org",
   "@type": "ExerciseGym",
   name: "Jambi Bugar Gym",
-  url: "https://jambibugar-jambi.pages.dev",
+  url: "https://jambibugar-gym-jambi.pages.dev",
   image: ogImage,
   description: description,
   address: { "@type": "PostalAddress", addressLocality: "Kota Jambi", addressRegion: "Jambi", addressCountry: "ID" },
-  telephone: "+62-812-3456-7890",
-  openingHours: "Mo-Sa 09:00-21:00",
-  aggregateRating: { "@type": "AggregateRating", ratingValue: "5.0", reviewCount: "120" }
+  sameAs: ["https://www.instagram.com/jambibugar.gym"]
 })} />
