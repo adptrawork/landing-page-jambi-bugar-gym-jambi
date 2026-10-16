@@ -12,9 +12,9 @@ export const business = {
   mapsEmbed: 'https://maps.google.com/maps?q=Jambi%20Bugar%20Gym%20Jambi&t=&z=15&ie=UTF8&iwloc=&output=embed',
   address: 'Kota Jambi — alamat & jam sesi konfirmasi via DM IG',
   hours: 'Sesi terpisah Pria/Wanita — jadwal via DM IG',
-  title: 'Jambi Bugar Gym — Home Gym Islami Sesi Pria/Wanita',
+  title: 'Jambi Bugar Gym Jambi — Home Gym Islami, Sesi Pria & Muslimah Terpisah',
   description:
-    'Jambi Bugar Gym: home gym islami di Jambi, jadwal latihan terpisah pria/wanita. Daftar & jadwal via DM IG @jambibugar.gym.',
+    'Rumah transformasi islami di Jambi: latihan kekuatan sesi pria dan muslimah terpisah, pendampingan coach, suasana tenang. Jadwal & daftar via DM IG @jambibugar.gym.',
   canonicalPath: '/',
   ogImage: '/images/jambi-bugar-1.jpg',
 };

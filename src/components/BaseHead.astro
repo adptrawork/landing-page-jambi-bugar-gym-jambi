@@ -7,6 +7,27 @@ interface Props {
 }
 const { title, description, canonicalUrl, image = '/images/jambi-bugar-1.jpg' } = Astro.props;
 const ogImage = new URL(image, Astro.site ?? Astro.url).toString();
+const faq = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Apakah sesi latihan pria dan wanita benar-benar terpisah di Jambi Bugar Gym?",
+      acceptedAnswer: { "@type": "Answer", text: "Ya. Sesuai bio Instagram resmi @jambibugar.gym, jadwal latihan dibagi sesi pria dan sesi wanita agar suasana tetap nyaman, aman, dan syari. Jam tiap sesi dikonfirmasi via DM Instagram." }
+    },
+    {
+      "@type": "Question",
+      name: "Bagaimana cara mendaftar dan bertanya jadwal di Jambi Bugar Gym?",
+      acceptedAnswer: { "@type": "Answer", text: "Pendaftaran dan tanya jadwal dilakukan via DM Instagram @jambibugar.gym. Nomor WhatsApp resmi belum terverifikasi, jadi waspadai nomor dari sumber lain." }
+    },
+    {
+      "@type": "Question",
+      name: "Apakah Jambi Bugar Gym cocok untuk pemula dan lansia?",
+      acceptedAnswer: { "@type": "Answer", text: "Cocok. Sebagai home gym dengan suasana tenang dan pendampingan coach, pemula hingga senior bisa mulai dari asesmen awal dan latihan kekuatan dasar yang aman." }
+    }
+  ]
+};
 ---
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -18,10 +39,13 @@ const ogImage = new URL(image, Astro.site ?? Astro.url).toString();
 <meta name="description" content={description} />
 <meta name="robots" content="index, follow" />
 <meta property="og:type" content="website" />
+<meta property="og:locale" content="id_ID" />
+<meta property="og:site_name" content="Jambi Bugar Gym — Rumah Transformasi Islami" />
 <meta property="og:url" content={canonicalUrl} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImage} />
+<meta property="og:image:alt" content="Area latihan home gym islami Jambi Bugar Gym sesi pria" />
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={canonicalUrl} />
 <meta property="twitter:title" content={title} />
@@ -31,9 +55,12 @@ const ogImage = new URL(image, Astro.site ?? Astro.url).toString();
   "@context": "https://schema.org",
   "@type": "ExerciseGym",
   name: "Jambi Bugar Gym",
-  url: "https://jambibugar-gym-jambi.pages.dev",
+  url: "https://jambibugar-jambi.pages.dev",
   image: ogImage,
   description: description,
+  exerciseType: ["Strength", "Senior"],
+  audience: { "@type": "PeopleAudience", suggestedMinAge: 15 },
   address: { "@type": "PostalAddress", addressLocality: "Kota Jambi", addressRegion: "Jambi", addressCountry: "ID" },
   sameAs: ["https://www.instagram.com/jambibugar.gym"]
 })} />
+<script type="application/ld+json" set:html={JSON.stringify(faq)} />
