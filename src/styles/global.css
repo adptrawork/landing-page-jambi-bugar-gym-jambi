@@ -183,3 +183,70 @@
   transition: transform .2s var(--ease-calm);
 }
 .skip-link:focus { transform: translateY(0); }
+
+/* ==========================================================================
+   Hero poster — "community poster flyer" (halaman depan saja, PosterHero.astro)
+   Semua gerak hanya lewat transform + opacity. Tidak ada JS, tidak ada listener.
+   ========================================================================== */
+
+/* Clip horizontal: elemen miring tidak boleh memicu scroll lateral di 360px.
+   `clip` (bukan `hidden`) supaya tidak tercipta scroll container baru. */
+.poster { position: relative; overflow-x: clip; }
+
+/* Rotasi statis tiap elemen poster; sudut dibaca dari --r. */
+.poster-rot,
+.poster-line,
+.poster-outline { transform: rotate(var(--r, 0deg)); }
+
+/* Masukkan konten: translateY + fade tipis, sambil mempertahankan rotasinya.
+   PENTING: opacity mulai dari .35, bukan 0. Elemen ber-opacity 0 tidak dihitung
+   Chrome sebagai contentful paint, sehingga LCP ikut tertahan sampai animasi
+   terakhir selesai. Mulai dari .35 -> elemen langsung ter-paint, LCP tetap cepat. */
+.poster-in {
+  animation: poster-in .6s var(--ease-calm) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+@keyframes poster-in {
+  from { opacity: .35; transform: rotate(var(--r, 0deg)) translateY(16px); }
+  to   { opacity: 1;   transform: rotate(var(--r, 0deg)) translateY(0); }
+}
+
+/* Tekstur halftone untuk kesan sablon — dekoratif, di atas blok accent. */
+.halftone {
+  background-image: radial-gradient(circle at 1px 1px, rgba(29, 48, 41, .28) 1px, transparent 1.5px);
+  background-size: 7px 7px;
+}
+
+/* Duotone: bayangan accent -> sorotan paper.
+   Diimplementasikan HANYA dengan rantai `filter` (grayscale + sepia untuk menghangatkan),
+   tanpa mix-blend-mode. Versi blend-mode memaksa lapisan komposit tambahan dan
+   menunda paint foto, sehingga LCP naik. Rantai filter tunggal jauh lebih murah. */
+.flyer-photo {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--accent);
+}
+.flyer-photo img {
+  filter: grayscale(1) contrast(1.12) brightness(1.06) sepia(0.72) saturate(2.6) hue-rotate(-14deg);
+}
+
+/* Meterai bundar yang menempel di tepi kiri panel foto. */
+.poster-stamp {
+  top: 54%;
+  left: -3.25rem;
+  display: grid;
+  place-items: center;
+  width: 8.5rem;
+  height: 8.5rem;
+  border: 2px solid var(--rule-strong);
+  border-radius: 9999px;
+  background-color: rgba(242, 239, 228, .88);
+}
+
+/* Reduced motion: tanpa rotasi, tanpa animasi — flyer tetap terbaca sebagai poster. */
+@media (prefers-reduced-motion: reduce) {
+  .poster-in { animation: none; opacity: 1; }
+  .poster-rot,
+  .poster-line,
+  .poster-outline { transform: none !important; }
+}

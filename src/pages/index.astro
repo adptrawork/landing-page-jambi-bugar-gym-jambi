@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/PageHero.astro';
+import PosterHero from '../components/PosterHero.astro';
 import CoachProfile from '../components/CoachProfile.astro';
 import ContactRuled from '../components/ContactRuled.astro';
 import ProgramSessions from '../components/ProgramSessions.astro';
@@ -49,9 +49,9 @@ const scheduleRows = [
 ];
 ---
 <BaseLayout title={business.title} description="Jambi Bugar Gym Jambi: home gym islami, sesi pria & muslimah terpisah, pendampingan coach dan asesmen awal. Jadwal & pendaftaran lewat DM IG admin." canonicalPath="/" image={business.ogImage}>
-  <PageHero
+  <PosterHero
     eyebrow="Home gym islami — Kota Jambi"
-    title="Latihan yang dipahami, bukan sekadar diikuti"
+    lines={['Latihan', 'yang dipahami,', 'bukan sekadar', 'dijuti']}
     lead="Jambi Bugar Gym adalah rumah transformasi islami dengan sesi pria dan muslimah terpisah. Kami menekankan pemahaman cara latihan: teknik dasar, asesmen awal, dan pendampingan coach — bukan janji hasil instan."
     image="/images/jambi-bugar-1.webp"
     imageAlt="Rak dumbel di area beban Jambi Bugar Gym, tanpa orang"
