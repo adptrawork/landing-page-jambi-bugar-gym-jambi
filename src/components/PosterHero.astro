@@ -148,13 +148,15 @@ const followersLabel = business.followers.replace(/^[\d.,\s]+/, '');
     {facts.length > 0 && (
       <dl class="poster-in mt-12 flex flex-wrap gap-3 md:mt-14" style="--i:7">
         {facts.map((f, i) => (
-          <div
-            class="poster-rot min-w-[9.5rem] max-w-full border border-ink/30 bg-paper px-3.5 py-2.5"
-            style={`--r:${i % 2 === 0 ? '-1.2deg' : '1.4deg'}`}
-          >
-            <dt class="eyebrow text-accent">{f.k}</dt>
+          <>
+            <dt
+              class="poster-rot min-w-[9.5rem] max-w-full border border-ink/30 bg-paper px-3.5 py-2.5 flex flex-col gap-1"
+              style={`--r:${i % 2 === 0 ? '-1.2deg' : '1.4deg'}`}
+            >
+              <span class="eyebrow text-accent">{f.k}</span>
+            </dt>
             <dd class="mt-1 text-[0.8125rem] leading-snug text-ink/85">{f.v}</dd>
-          </div>
+          </>
         ))}
       </dl>
     )}

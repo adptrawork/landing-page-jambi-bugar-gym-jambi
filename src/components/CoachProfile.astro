@@ -31,19 +31,15 @@ const wa = waLink(coach.phone, `Assalamualaikum ${coach.name}, saya mau tanya pe
         </span>
         <p class="mt-6 max-w-prose leading-relaxed text-ink/80">{coach.note}</p>
 
-        <dl class="ruled mt-8 max-w-prose">
-          <div class="ruled-item flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:gap-6">
-            <dt class="eyebrow w-32 shrink-0 text-ink/75">Fokus</dt>
-            <dd class="text-sm text-ink/85">{coach.focus}</dd>
-          </div>
-          <div class="ruled-item flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:gap-6">
-            <dt class="eyebrow w-32 shrink-0 text-ink/75">Kontak pelatih</dt>
-            <dd class="text-sm">
-              <a href={wa} class="inline-flex min-h-[32px] items-center gap-2 font-medium text-ink underline decoration-accent/50 underline-offset-4 hover:decoration-accent">
-                <Icon name="whatsapp" size={16} />{coach.phone}
-              </a>
-            </dd>
-          </div>
+        <dl class="ruled mt-8 max-w-prose flex flex-col gap-0 sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-6">
+          <dt class="eyebrow w-32 shrink-0 text-ink/75 py-4 border-b border-ink/15">Fokus</dt>
+          <dd class="text-sm text-ink/85 py-4 border-b border-ink/15">{coach.focus}</dd>
+          <dt class="eyebrow w-32 shrink-0 text-ink/75 py-4 border-b border-ink/15">Kontak pelatih</dt>
+          <dd class="text-sm text-ink/85 py-4 border-b border-ink/15">
+            <a href={wa} class="inline-flex min-h-[32px] items-center gap-2 font-medium text-ink underline decoration-accent/50 underline-offset-4 hover:decoration-accent">
+              <Icon name="whatsapp" size={16} />{coach.phone}
+            </a>
+          </dd>
         </dl>
 
         <a href={wa} class="btn btn-primary mt-8">

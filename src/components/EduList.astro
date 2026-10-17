@@ -4,7 +4,7 @@ interface Props { eyebrow?: string; heading: string; lead?: string; groups: Grou
 const { eyebrow = 'Edukasi', heading, lead, groups, headingId = 'edukasi' } = Astro.props;
 ---
 
-<section class="border-b border-ink/15 bg-paper-2/40" aria-labelledby={headingId}>
+<section class="border-b border-ink/15 bg-paper-2/30" aria-labelledby={headingId}>
   <div class="shell grid gap-10 py-14 md:grid-cols-12 md:gap-14 md:py-20">
     <div class="md:col-span-4">
       <p class="eyebrow reveal text-accent" style="--i:0">{eyebrow}</p>

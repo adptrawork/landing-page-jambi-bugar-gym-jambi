@@ -15,17 +15,19 @@ const waCoach = waLink(coachNoe.phone, `Halo ${coachNoe.name}, saya mau tanya ru
       <h2 id={headingId} class="reveal mt-3 max-w-[20ch] font-display text-3xl md:text-4xl" style="--i:0">{heading}</h2>
       {lead && <p class="reveal mt-5 max-w-prose text-sm leading-relaxed text-ink/75" style="--i:1">{lead}</p>}
 
-      <dl class="reveal ruled mt-8" style="--i:2">
-        <div class="ruled-item relative py-4 pl-9">
-          <span class="absolute left-0 top-4 shrink-0 text-accent" aria-hidden="true"><Icon name="pin" size={18} /></span>
-          <dt class="eyebrow text-ink/75">Lokasi</dt>
-          <dd class="mt-1 text-sm leading-relaxed text-ink/85">{business.address}</dd>
-        </div>
-        <div class="ruled-item relative py-4 pl-9">
-          <span class="absolute left-0 top-4 shrink-0 text-accent" aria-hidden="true"><Icon name="clock" size={18} /></span>
-          <dt class="eyebrow text-ink/75">Jam & sesi</dt>
-          <dd class="mt-1 text-sm leading-relaxed text-ink/85">{business.hours}</dd>
-        </div>
+      <dl class="reveal ruled mt-8 flex flex-col gap-0" style="--i:2">
+        {[
+          { icon: 'pin', label: 'Lokasi', value: business.address },
+          { icon: 'clock', label: 'Jam & sesi', value: business.hours },
+        ].map((item) => (
+          <>
+            <dt class="flex items-start gap-4 py-4 border-b border-ink/15">
+              <span class="shrink-0 text-accent" aria-hidden="true"><Icon name={item.icon} size={18} /></span>
+              <span class="eyebrow block text-ink/75">{item.label}</span>
+            </dt>
+            <dd class="mt-1 text-sm leading-relaxed text-ink/85 py-4">{item.value}</dd>
+          </>
+        ))}
       </dl>
 
       <div class="reveal mt-8 flex flex-wrap gap-3" style="--i:3">
