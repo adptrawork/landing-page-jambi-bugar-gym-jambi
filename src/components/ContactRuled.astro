@@ -4,7 +4,7 @@ interface Entry { name: string; role: string; phone: string; wa: string; tag?: s
 interface Props { heading: string; eyebrow?: string; lead?: string; entries: Entry[]; note?: string; headingId?: string; }
 const { heading, eyebrow = 'Kontak pelatih & admin', lead, entries, note, headingId = 'kontak-pelatih' } = Astro.props;
 ---
-<!-- Ref: calm editorial coach directory — kontak sebagai daftar ber-rule, bukan 3 kartu sama besar -->
+
 <section class="border-b border-ink/15" aria-labelledby={headingId}>
   <div class="shell py-14 md:py-20">
     <div class="grid gap-4 md:grid-cols-12 md:items-end">

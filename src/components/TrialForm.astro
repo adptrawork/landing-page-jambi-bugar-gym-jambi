@@ -2,7 +2,7 @@
 const { action = '#', gymName = 'Gym', accent = 'emerald-800', kind = 'wa', contact = '' } = Astro.props as { action?: string; gymName?: string; accent?: string; kind?: 'wa' | 'dm' | 'maps'; contact?: string };
 const hint = kind === 'dm' ? 'Form ini membuka DM Instagram — tanpa login tambahan.' : kind === 'maps' ? 'Form ini menyiapkan info kunjungan + rute Google Maps.' : 'Form ini membuka WhatsApp — tanpa login tambahan.';
 ---
-<!-- Ref: Unbounce fitness — risk-reversal + CTA; validasi + error/empty states -->
+
 <form class="trial-form rounded-3xl border border-stone-200 bg-white p-6 md:p-8" data-kind={kind} data-action={action} data-contact={contact} data-gym={gymName} novalidate>
   <p class="font-mono-num text-[11px] font-bold uppercase tracking-[0.18em]">Trial / Konsultasi — gratis tanya dulu</p>
   <p class="mt-1 text-sm text-stone-500">{hint}</p>

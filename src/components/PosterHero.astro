@@ -39,15 +39,12 @@ const followersNum = business.followers.match(/[\d.,]+/)?.[0] ?? '';
 const followersLabel = business.followers.replace(/^[\d.,\s]+/, '');
 ---
 
-<!--
-  Ref: community poster flyer — judul besar miring, stiker & meterai menempel di atas foto,
-  blok offset, dan deretan tag kecil bergaya stub (bukan kartu).
--->
+
 <section class="poster border-b border-ink/15" aria-labelledby={headingId}>
   <div class="shell relative py-12 md:py-20">
     <div class="grid items-start gap-10 md:grid-cols-12 md:gap-8">
       <div class="relative md:col-span-7 md:col-start-1">
-        <!-- Blok offset: garis accent di belakang area judul. Dekoratif, tanpa teks. -->
+        
         <span
           class="poster-outline pointer-events-none absolute -top-3 hidden h-[62%] w-[76%] border-2 border-accent/45 md:block"
           style="--r: -2.4deg"
@@ -56,7 +53,7 @@ const followersLabel = business.followers.replace(/^[\d.,\s]+/, '');
 
         <p class="poster-in eyebrow text-accent" style="--i:0">{eyebrow}</p>
 
-        <!-- Satu elemen heading utuh; tiap baris diputar berbeda agar tetap terbaca sebagai satu kalimat. -->
+        
         <h1
           id={headingId}
           class="relative mt-5 font-display text-[clamp(2.5rem,6.2vw,4.6rem)] font-bold leading-[0.98] tracking-[-0.02em]"
@@ -94,7 +91,7 @@ const followersLabel = business.followers.replace(/^[\d.,\s]+/, '');
         )}
       </div>
 
-      <!-- Panel foto: blok offset + perlakuan duotone (grayscale di-screen di atas dasar accent). -->
+      
       <div class="poster-in relative md:col-span-5 md:col-start-8" style="--i:3">
         <span
           class="poster-outline pointer-events-none absolute -bottom-5 -left-5 hidden h-full w-full border-2 border-ink/35 md:block"
@@ -120,7 +117,7 @@ const followersLabel = business.followers.replace(/^[\d.,\s]+/, '');
           </figcaption>
         </figure>
 
-        <!-- Meterai bundar: stiker lingkaran berisi data publik resmi dari business.ts. -->
+        
         <p class="poster-rot poster-stamp pointer-events-none absolute z-10 hidden select-none lg:block" style="--r: -9deg">
           <span class="sr-only">{business.followers}</span>
           <span aria-hidden="true" class="block px-2 text-center">
@@ -131,7 +128,7 @@ const followersLabel = business.followers.replace(/^[\d.,\s]+/, '');
           </span>
         </p>
 
-        <!-- Stiker kotak yang menempel di atas panel foto. Konten asli dari business.ts. -->
+        
         <p
           class="poster-rot absolute -left-3 top-8 z-10 border border-ink/25 bg-paper px-3 py-2 text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-ink shadow-[3px_3px_0_0_var(--accent)]"
           style="--r: -4.5deg"
@@ -147,10 +144,7 @@ const followersLabel = business.followers.replace(/^[\d.,\s]+/, '');
       </div>
     </div>
 
-    <!--
-      Deretan tag "flyer": stub bersudut tajam (bukan kartu), sedikit diputar.
-      Isi memakai data facts asli — tidak diubah.
-    -->
+    
     {facts.length > 0 && (
       <dl class="poster-in mt-12 flex flex-wrap gap-3 md:mt-14" style="--i:7">
         {facts.map((f, i) => (

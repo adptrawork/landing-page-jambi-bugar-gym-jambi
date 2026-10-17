@@ -36,9 +36,9 @@ const igUrl = business.instagram;
 <body>
   <a href="#main" class="skip-link btn btn-primary">Lewati ke konten</a>
 
-  <!-- Strip identitas -->
+  
   <div class="on-dark bg-forest text-paper">
-    <div class="shell flex items-center justify-between gap-4 py-2">
+    <div class="shell flex flex-wrap items-center justify-between gap-4 py-2">
       <p class="eyebrow">Rumah Transformasi &mdash; Nyaman &middot; Aman &middot; Syari</p>
       <p class="eyebrow hidden text-paper/75 sm:block">Sesi pria &amp; muslimah terpisah</p>
     </div>
@@ -47,8 +47,8 @@ const igUrl = business.instagram;
   <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Buka atau tutup menu navigasi" />
 
   <header class="sticky top-0 z-40 border-b border-ink/15 bg-paper/92 backdrop-blur">
-    <nav class="shell flex items-center justify-between gap-4 py-3" aria-label="Navigasi utama">
-      <a href="/" class="flex items-center gap-3" aria-label={`${business.name} — beranda`}>
+    <nav class="shell flex items-center justify-between gap-3 py-3" aria-label="Navigasi utama">
+      <a href="/" class="flex items-center gap-3" >
         <span class="grid h-10 w-10 place-items-center rounded-[2px] bg-forest font-display text-base font-bold text-paper" aria-hidden="true">JB</span>
         <span class="leading-none">
           <span class="block font-display text-lg font-bold tracking-tight">Jambi Bugar</span>
@@ -58,7 +58,7 @@ const igUrl = business.instagram;
 
       <div class="hidden items-center gap-7 md:flex">
         {nav.map((n) => (
-          <a href={n.href} class:list={["relative py-2 text-sm font-medium tracking-wide transition-colors", n.href === path ? "text-ink" : "text-ink/65 hover:text-ink"]}>
+          <a href={n.href} class:list={["relative py-2 text-sm font-medium tracking-wide transition-colors", n.href === path ? "text-ink" : "text-ink/75 hover:text-ink"]}>
             {n.label}
             {n.href === path && <span class="absolute inset-x-0 -bottom-0.5 h-px bg-accent" aria-hidden="true"></span>}
           </a>
@@ -128,7 +128,7 @@ const igUrl = business.instagram;
     </div>
 
     <div class="border-t border-paper/15">
-      <div class="shell flex flex-col gap-2 py-6 text-xs text-paper/55 sm:flex-row sm:items-center sm:justify-between">
+      <div class="shell flex flex-col gap-2 py-6 text-xs text-paper/70 sm:flex-row sm:items-center sm:justify-between">
         <p>&copy; 2026 Jambi Bugar Gym &mdash; Kota Jambi.</p>
         <p>Foto: visual non-wajah, domain publik / Wikimedia Commons (lihat catatan repositori).</p>
       </div>

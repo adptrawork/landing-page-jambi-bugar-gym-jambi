@@ -5,7 +5,7 @@ interface Props { eyebrow?: string; heading: string; lead?: string; items: Item[
 const { eyebrow = 'Harga & paket', heading, lead, items, ctaHref, note, headingId = 'harga' } = Astro.props;
 const verified = (badge: string) => badge.toLowerCase().includes('verifikasi');
 ---
-<!-- Ref: calm editorial coach directory — harga sebagai daftar ber-rule, tanpa tiga kartu sama besar -->
+
 <section class="border-b border-ink/15" aria-labelledby={headingId}>
   <div class="shell py-14 md:py-20">
     <div class="grid gap-4 md:grid-cols-12 md:items-end">
@@ -22,7 +22,7 @@ const verified = (badge: string) => badge.toLowerCase().includes('verifikasi');
           <div class="grid items-baseline gap-x-6 gap-y-2 py-5 md:grid-cols-12">
             <div class="md:col-span-5">
               <h3 class="font-display text-lg">{p.name}</h3>
-              <p class:list={['eyebrow mt-1', verified(p.badge) ? 'text-accent' : 'text-ink/50']}>{p.badge}</p>
+              <p class:list={['eyebrow mt-1', verified(p.badge) ? 'text-accent' : 'text-ink/75']}>{p.badge}</p>
             </div>
             <p class="text-sm leading-relaxed text-ink/70 md:col-span-4">{p.desc}</p>
             <div class="flex items-baseline gap-4 md:col-span-3 md:justify-end">

@@ -2,15 +2,15 @@
 interface Item { value: string; label: string; }
 const { items = [], note = '', accent = 'emerald-800' } = Astro.props as { items: Item[]; note?: string; accent?: string };
 ---
-<!-- Ref: NYSC — 1 warna pop + angka mono kontras -->
+
 <section class={`bg-${accent} text-white overflow-hidden`} aria-label="Statistik singkat">
   <div class="max-w-7xl mx-auto px-4 py-10 md:py-12">
     <dl class="grid grid-cols-2 md:grid-cols-4 gap-6">
       {items.map((s) => (
-        <div class="border-l-2 border-white/30 pl-4">
-          <dd class="font-mono-num font-bold text-2xl md:text-3xl leading-none">{s.value}</dd>
+        <>
+          <dd class="font-mono-num font-bold text-2xl md:text-3xl leading-none border-l-2 border-white/30 pl-4">{s.value}</dd>
           <dt class="mt-1 text-xs uppercase tracking-[0.18em] text-white/75">{s.label}</dt>
-        </div>
+        </>
       ))}
     </dl>
     {note && <p class="mt-6 text-xs text-white/60">{note}</p>}

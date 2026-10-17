@@ -2,7 +2,7 @@
 interface Props { src: string; title: string; mapsUrl: string; label?: string }
 const { src, title, mapsUrl, label = 'Muat peta & buka rute' } = Astro.props;
 ---
-<!-- Maps facade: pratinjau tombol -> suntik iframe saat diklik (hemat ~7MB JS Google Maps saat muat) -->
+
 <div class="map-facade relative aspect-video overflow-hidden rounded-[2px] border border-ink/15 bg-paper-2" data-src={src} data-title={title}>
   <div class="absolute inset-0 grid place-items-center" aria-hidden="true">
     <span class="font-display text-3xl font-bold tracking-[0.3em] text-ink/30">PETA</span>

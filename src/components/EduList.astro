@@ -3,7 +3,7 @@ interface Group { title: string; items: string[]; }
 interface Props { eyebrow?: string; heading: string; lead?: string; groups: Group[]; headingId?: string; }
 const { eyebrow = 'Edukasi', heading, lead, groups, headingId = 'edukasi' } = Astro.props;
 ---
-<!-- Ref: calm editorial coach directory — blok edukasi sebagai list bernomor ber-rule -->
+
 <section class="border-b border-ink/15 bg-paper-2/40" aria-labelledby={headingId}>
   <div class="shell grid gap-10 py-14 md:grid-cols-12 md:gap-14 md:py-20">
     <div class="md:col-span-4">

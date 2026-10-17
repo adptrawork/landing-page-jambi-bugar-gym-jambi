@@ -5,7 +5,7 @@ interface Props { eyebrow?: string; heading: string; lead?: string; items: Item[
 const { eyebrow = 'Program & sesi', heading, lead, items, ctaHref = '#', ctaLabel = 'Tanya jadwal', note, headingId = 'program-sesi' } = Astro.props;
 const verified = (badge: string) => badge.toLowerCase().includes('verifikasi');
 ---
-<!-- Ref: calm editorial coach directory — program sebagai zig-zag 2 kolom ber-rule -->
+
 <section class="border-b border-ink/15" aria-labelledby={headingId}>
   <div class="shell py-14 md:py-20">
     <div class="grid gap-4 md:grid-cols-12 md:items-end">
@@ -25,7 +25,7 @@ const verified = (badge: string) => badge.toLowerCase().includes('verifikasi');
           <div class:list={['md:col-span-6', i % 2 === 1 ? 'md:order-1' : '']}>
             <p class="flex items-center gap-2">
               <span class:list={['h-px w-8', verified(p.badge) ? 'bg-accent' : 'bg-ink/25']} aria-hidden="true"></span>
-              <span class:list={['eyebrow', verified(p.badge) ? 'text-accent' : 'text-ink/55']}>{p.badge}</span>
+              <span class:list={['eyebrow', verified(p.badge) ? 'text-accent' : 'text-ink/75']}>{p.badge}</span>
             </p>
             <h3 class="mt-3 font-display text-2xl">{p.name}</h3>
             <p class="mt-3 max-w-prose text-sm leading-relaxed text-ink/75">{p.desc}</p>
@@ -37,6 +37,6 @@ const verified = (badge: string) => badge.toLowerCase().includes('verifikasi');
       ))}
     </ul>
 
-    {note && <p class="mt-6 max-w-prose text-xs leading-relaxed text-ink/55">{note}</p>}
+    {note && <p class="mt-6 max-w-prose text-xs leading-relaxed text-ink/75">{note}</p>}
   </div>
 </section>

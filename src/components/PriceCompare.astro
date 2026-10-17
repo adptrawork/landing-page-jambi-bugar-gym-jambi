@@ -2,7 +2,7 @@
 interface Price { name: string; price: string; badge: string; desc: string; href?: string; featured?: boolean; }
 const { items = [], accent = 'emerald-800', note = '' } = Astro.props as { items: Price[]; accent?: string; note?: string };
 ---
-<!-- Ref: Unbounce fitness — offer + risk-reversal; highlight 1 paket Terpopuler -->
+
 <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
   {items.map((p) => (
     <article class={`relative flex flex-col rounded-3xl border p-6 ${p.featured ? `border-${accent} bg-stone-900 text-white shadow-xl md:-translate-y-2` : 'border-stone-200 bg-white'}`}>
@@ -16,7 +16,7 @@ const { items = [], accent = 'emerald-800', note = '' } = Astro.props as { items
   ))}
 </div>
 {note && <p class="mt-4 text-xs text-stone-500">{note}</p>}
-<!-- Skeleton shimmer: tampil saat harga dimuat ulang (progressive enhancement) -->
+
 <div class="price-skeleton mt-5 hidden gap-5 md:grid-cols-3" aria-hidden="true">
   {[0,1,2].map(() => <div class="skeleton h-40 rounded-3xl bg-stone-200" />)}
 </div>

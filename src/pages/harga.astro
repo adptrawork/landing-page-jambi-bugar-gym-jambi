@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { business, prices, ctaLink } from '../data/business';
 const heroCta = ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi.`);
 ---
-<!-- Ref: Unbounce fitness — head (hook) + content + CTA -->
+
 <BaseLayout title="Estimasi Harga Keanggotaan — Jambi Bugar Gym Jambi" description="Biaya keanggotaan estimasi Jambi Bugar Gym Jambi: harian, bulanan, dan sesi kekuatan dasar. Semua estimasi, konfirmasi jadwal dan tarif lewat admin WhatsApp." canonicalPath="/Harga" image={business.ogImage}>
   <section class="bg-stone-900 text-white" aria-labelledby="subhead">
     <div class="max-w-7xl mx-auto px-4 pt-14 pb-12 md:pt-20 md:pb-16">
@@ -41,9 +41,9 @@ const heroCta = ctaLink(`Halo ${business.name}, saya mau tanya jadwal sesi.`);
         ))}
       </div>
     </div>
-    <!-- Skeleton shimmer: placeholder saat harga dimuat -->
+    
     <div class="skeleton mt-6 hidden h-24 rounded-3xl bg-stone-200" aria-hidden="true"></div>
-    <p class="mt-4 text-xs text-stone-500">Harga estimasi — konfirmasi tarif via DM IG @jambibugar.gym.</p>
+    <p class="mt-4 text-xs text-stone-600">Harga estimasi — konfirmasi tarif via DM IG @jambibugar.gym.</p>
   </section>
   <section class="max-w-7xl mx-auto px-4 pb-12 md:pb-20" aria-label="Ajakan">
     <div class="rounded-3xl bg-stone-900 p-8 text-white md:p-10">

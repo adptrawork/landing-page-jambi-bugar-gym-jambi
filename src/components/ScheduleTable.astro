@@ -4,7 +4,7 @@ interface Row { name: string; audience: string; schedule: string; }
 interface Props { eyebrow?: string; heading: string; lead?: string; rows: Row[]; note?: string; headingId?: string; }
 const { eyebrow = 'Jadwal & jam', heading, lead, rows, note, headingId = 'jadwal' } = Astro.props;
 ---
-<!-- Ref: calm editorial coach directory — jadwal sebagai tabel ber-rule, menjadi kartu di mobile -->
+
 <section class="border-b border-ink/15" aria-labelledby={headingId}>
   <div class="shell py-14 md:py-20">
     <div class="grid gap-4 md:grid-cols-12 md:items-end">

@@ -9,7 +9,7 @@ export default {
         'paper-2': '#C0C7A4',
         ink: '#1D3029',
         forest: '#244B3E',
-        accent: '#925139',
+        accent: '#7c3c28',
       },
       fontFamily: {
         display: ['"Libre Baskerville"', 'Georgia', 'ui-serif', 'serif'],
